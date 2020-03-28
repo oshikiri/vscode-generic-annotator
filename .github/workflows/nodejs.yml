@@ -19,9 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Setup
       run: |
-          npm install -g vsce
           npm install
-          vsce package
     - name: Run tests
       uses: GabrielBB/xvfb-action@v1.0
       with:
