@@ -1,13 +1,13 @@
 {
-	"name": "lsp-sample-client",
-	"description": "VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"name": "vscode-ledgerlint-client",
+	"description": "VS Code extension for ledgerlint",
+	"author": "Takamasa Oshikiri",
 	"license": "MIT",
 	"version": "0.0.1",
-	"publisher": "vscode",
+	"publisher": "oshikiri",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/oshikiri/vscode-ledgerlint"
 	},
 	"engines": {
 		"vscode": "^1.43.0"
