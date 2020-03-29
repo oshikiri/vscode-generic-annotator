@@ -1,10 +1,6 @@
 vscode-ledgerlint
 =====
 
-VS Code extension for [ledgerlint](https://github.com/oshikiri/ledgerlint).
-
-![screenshot](./doc/screenshot.png)
-
 ## Requirement
 
 - ledgerlint
