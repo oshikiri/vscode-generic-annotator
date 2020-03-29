@@ -32,7 +32,9 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
 	await activate(docUri);
 
+	console.log({docUri});
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
+	console.log({actualDiagnostics});
 
 	assert.equal(actualDiagnostics.length, expectedDiagnostics.length);
 
