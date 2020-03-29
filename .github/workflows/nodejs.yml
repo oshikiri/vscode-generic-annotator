@@ -28,6 +28,8 @@ jobs:
         mkdir -p $HOME/.local/bin
         PATH=$PATH:$HOME/.local/bin
         mv ledgerlint $HOME/.local/bin
+
+        ledgerlint -f client/testFixture/imbalance.ledger
     - name: Setup
       run: npm install
     - name: Compile
