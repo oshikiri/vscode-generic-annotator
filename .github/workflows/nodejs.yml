@@ -24,6 +24,7 @@ jobs:
         FILENAME=ledgerlint_${LEDGERLINT_VERSION}_darwin_amd64.tar.gz
         wget https://github.com/oshikiri/ledgerlint/releases/download/v${LEDGERLINT_VERSION}/${FILENAME}
         tar xzvf ${FILENAME}
+        mkdir -p $HOME/.local/bin
         mv ledgerlint $HOME/.local/bin
     - name: Setup
       run: npm install
