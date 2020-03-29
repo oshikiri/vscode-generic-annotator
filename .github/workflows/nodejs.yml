@@ -20,6 +20,8 @@ jobs:
     - name: Setup
       run: |
           npm install
+    - name: Compile
+        run: npm run compile
     - name: Run tests
       uses: GabrielBB/xvfb-action@v1.0
       with:
