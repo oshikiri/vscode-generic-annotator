@@ -14,7 +14,7 @@ suite('Should get diagnostics', () => {
 				source: 'ledgerlint',
 			},
 			{
-				message: 'imbalanced transaction, (total amount) = -20000 USD + 2000 JPY',
+				message: 'imbalanced transaction, (total amount) = -18000 JPY',
 				range: toRange(4, 0, 4, 80),
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'ledgerlint',
