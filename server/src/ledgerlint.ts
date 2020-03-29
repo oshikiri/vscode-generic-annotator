@@ -1,6 +1,3 @@
-
-import * as util from 'util';
-
 export class LedgerLintError {
 	filePath: string;
 	lineNumber: number;
@@ -16,9 +13,11 @@ export class LedgerLintError {
 	}
 }
 
+
+const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-export async function runLedgerLint(absPath: string): Promise<LedgerLintError[]> {
+async function runLedgerLint(absPath: string): Promise<LedgerLintError[]> {
 	const { stdout } = await exec(`ledgerlint -f $(realpath --relative-to=. ${absPath})`);
 	const lines = String(stdout).split('\n');
 	const errors: LedgerLintError[] =[];
