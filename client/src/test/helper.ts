@@ -11,12 +11,9 @@ export let editor: vscode.TextEditor;
 export let documentEol: string;
 export let platformEol: string;
 
-/**
- * Activates the vscode.lsp-sample extension
- */
 export async function activate(docUri: vscode.Uri) {
 	// The extensionId is `publisher.name` from package.json
-	const ext = vscode.extensions.getExtension('oshikiri.lsp-sample')!;
+	const ext = vscode.extensions.getExtension('oshikiri.vscode-ledgerlint')!;
 	await ext.activate();
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);

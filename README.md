@@ -1,4 +1,5 @@
-# LSP Example
+vscode-ledgerlint
+=====
 
 Heavily documented sample code for https://code.visualstudio.com/api/language-extensions/language-server-extension-guide
 
@@ -38,5 +39,7 @@ It also includes an End-to-End test.
   - Enter text content such as `AAA aaa BBB`. The extension will emit diagnostics for all words in all-uppercase.
 
 ## License
+
+MIT
 
 This repository is based on [lsp-sample](https://github.com/microsoft/vscode-extension-samples/tree/6f16dafc01a248ac39d450ecf56ae73274757644/lsp-sample).
