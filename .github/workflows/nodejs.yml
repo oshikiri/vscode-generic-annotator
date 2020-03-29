@@ -17,17 +17,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Setup ledgerlint
-      run: |
-        LEDGERLINT_VERSION=0.0.1
-        FILENAME=ledgerlint_${LEDGERLINT_VERSION}_linux_amd64.tar.gz
-
-        wget --no-verbose https://github.com/oshikiri/ledgerlint/releases/download/v${LEDGERLINT_VERSION}/${FILENAME}
-        tar xzvf ${FILENAME}
-
-        mkdir -p $HOME/.local/bin
-        PATH=$PATH:$HOME/.local/bin
-        mv ledgerlint $HOME/.local/bin
     - name: Setup
       run: npm install
     - name: Compile
@@ -36,10 +25,7 @@ jobs:
       run: |
           npm install -g vsce
           vsce package
-    - name: Start xvfb (cf. https://github.com/microsoft/vscode-test/issues/47#issuecomment-546952277)
-      run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Run tests
-      env:
-          CODE_VERSION: ''
-          DISPLAY: ':99.0'
-      run: npm test
+      uses: GabrielBB/xvfb-action@v1.0
+      with:
+        run: npm test
