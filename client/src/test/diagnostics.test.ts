@@ -32,6 +32,8 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
 	await activate(docUri);
 
+	await new Promise(resolve => setTimeout(resolve, 5000));
+
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
 	assert.equal(actualDiagnostics.length, expectedDiagnostics.length, 'Unexpected number of diagnostics');
