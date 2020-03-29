@@ -15,6 +15,12 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 
+import {
+	LedgerLintError,
+	runLedgerLint,
+} from './ledgerlint';
+
+
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
 let connection = createConnection(ProposedFeatures.all);
@@ -129,31 +135,14 @@ documents.onDidChangeContent(change => {
 	validateTextDocument(change.document);
 });
 
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-
-import {LedgerLintError} from './ledgerlint';
-
-// async function runLedgerLint(absPath: string): Promise<LedgerLintError[]> {
-// 	return;
-// }
-
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
-	const { stdout } = await exec(`ledgerlint -f $(realpath --relative-to=. ${path})`);
-	const lines = String(stdout).split('\n');
-	const errors: LedgerLintError[] =[];
-	lines.forEach(line => {
-		const m = line.match(/^([\w\d\.]+):(\d+)\s+(.+)$/);
-		if (m === null) {
-			return;
-		}
-		const error = new LedgerLintError(m[1], Number(m[2])-1, m[3]);
-		errors.push(error);
-	});
+	if (path === undefined) {
+		return;
+	}
 
 	let diagnostics: Diagnostic[] = [];
-	errors.forEach (lintError => {
+	(await runLedgerLint(path)).forEach (lintError => {
 		const lineNumber = lintError.lineNumber;
 		const range = Range.create(lineNumber, 0, lineNumber, 80);
 		const diagnostic: Diagnostic = {
