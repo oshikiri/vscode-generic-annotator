@@ -3,13 +3,22 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('Should get diagnostics', () => {
-	const docUri = getDocUri('diagnostics.ledger');
+	const docUri = getDocUri('imbalance.ledger');
 
 	test('Diagnoses uppercase texts', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'ANY is all uppercase.', range: toRange(0, 0, 0, 3), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' },
-			{ message: 'ANY is all uppercase.', range: toRange(0, 14, 0, 17), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' },
-			{ message: 'OS is all uppercase.', range: toRange(0, 18, 0, 20), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' }
+			{
+				message: 'imbalanced transaction, (total amount) = -1800 JPY',
+				range: toRange(0, 0, 0, 80),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'ledgerlint',
+			},
+			{
+				message: 'imbalanced transaction, (total amount) = -18000 JPY',
+				range: toRange(4, 0, 4, 80),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'ledgerlint',
+			},
 		]);
 	});
 });
