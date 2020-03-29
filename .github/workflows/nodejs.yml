@@ -37,7 +37,6 @@ jobs:
           npm install -g vsce
           vsce package
     - name: Start xvfb (cf. https://github.com/microsoft/vscode-test/issues/47#issuecomment-546952277)
-      if: startsWith(matrix.os, 'ubuntu')
       run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Run tests
       env:
