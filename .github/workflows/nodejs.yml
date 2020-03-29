@@ -20,7 +20,7 @@ jobs:
     - name: Setup ledgerlint
       run: |
         LEDGERLINT_VERSION=0.0.1
-        FILENAME=ledgerlint_${LEDGERLINT_VERSION}_darwin_amd64.tar.gz
+        FILENAME=ledgerlint_${LEDGERLINT_VERSION}_linux_amd64.tar.gz
         wget --no-verbose https://github.com/oshikiri/ledgerlint/releases/download/v${LEDGERLINT_VERSION}/${FILENAME}
         tar xzvf ${FILENAME}
         mkdir -p $HOME/.local/bin
