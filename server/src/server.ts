@@ -16,7 +16,6 @@ import {
 } from 'vscode-languageserver-textdocument';
 
 import {
-	LedgerLintError,
 	runLedgerLint,
 } from './ledgerlint';
 
