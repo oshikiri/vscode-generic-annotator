@@ -3,7 +3,7 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('Should get diagnostics', () => {
-	const docUri = getDocUri('diagnostics.txt');
+	const docUri = getDocUri('diagnostics.ledger');
 
 	test('Diagnoses uppercase texts', async () => {
 		await testDiagnostics(docUri, [
