@@ -22,6 +22,10 @@ jobs:
           npm install
     - name: Compile
       run: npm run compile
+    - name: vsce
+      run: |
+          npm install -g vsce
+          vsce package
     - name: Run tests
       uses: GabrielBB/xvfb-action@v1.0
       with:
