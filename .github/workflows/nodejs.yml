@@ -17,6 +17,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Setup ledgerlint
+      run: |
+        echo $PATH
+        wget https://github.com/oshikiri/ledgerlint/releases/download/v0.0.1/ledgerlint_0.0.1_darwin_amd64.tar.gz
+        mv ledgerlint $HOME/.local/bin
     - name: Setup
       run: npm install
     - name: Compile
