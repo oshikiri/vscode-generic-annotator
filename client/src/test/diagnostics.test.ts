@@ -34,7 +34,7 @@ async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.D
 
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
-	assert.equal(actualDiagnostics.length, expectedDiagnostics.length);
+	assert.equal(actualDiagnostics.length, expectedDiagnostics.length, 'Unexpected number of diagnostics');
 
 	expectedDiagnostics.forEach((expectedDiagnostic, i) => {
 		const actualDiagnostic = actualDiagnostics[i];
