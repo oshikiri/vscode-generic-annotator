@@ -17,7 +17,7 @@
 		"vscode": "^1.43.0"
 	},
 	"activationEvents": [
-		"onLanguage:ledger"
+		"onLanguage:plaintext"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -46,7 +46,7 @@
 		},
 		"languages": [
 			{
-				"id": "ledger",
+				"id": "ledger2",
 				"aliases": [
 					"Ledger journal"
 				],
