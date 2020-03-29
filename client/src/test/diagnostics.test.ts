@@ -33,7 +33,6 @@ async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.D
 	await activate(docUri);
 
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
-	assert.equal(actualDiagnostics, '');
 
 	assert.equal(actualDiagnostics.length, expectedDiagnostics.length);
 
