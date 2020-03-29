@@ -19,6 +19,7 @@ export class LedgerLintError {
 const exec = util.promisify(require('child_process').exec);
 
 export async function runLedgerLint(absPath: string): Promise<LedgerLintError[]> {
+	throw Error(absPath);
 	console.log({absPath});
 	const { stdout } = await exec(`ledgerlint -f $(realpath --relative-to=. ${absPath})`);
 	console.log({stdout});
