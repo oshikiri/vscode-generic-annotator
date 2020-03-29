@@ -16,7 +16,6 @@ import {
 } from 'vscode-languageserver-textdocument';
 
 import {
-	LedgerLintError,
 	runLedgerLint,
 } from './ledgerlint';
 
@@ -136,7 +135,9 @@ documents.onDidChangeContent(change => {
 });
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+	console.log(textDocument);
 	const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
+	console.log({path});
 	if (path === undefined) {
 		return;
 	}
