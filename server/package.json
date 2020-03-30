@@ -19,6 +19,7 @@
 		"test": "./node_modules/.bin/jest"
 	},
 	"devDependencies": {
+		"@types/jest": "^25.1.4",
 		"jest": "^25.2.4",
 		"ts-jest": "^25.2.1",
 		"ts-node": "^8.8.1",
