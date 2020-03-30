@@ -2,10 +2,10 @@ import * as vscode from 'vscode';
 import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
-suite('Should get diagnostics', () => {
+suite('diagnostics tests', () => {
 	const docUri = getDocUri('imbalance.ledger');
 
-	test('Diagnoses uppercase texts', async () => {
+	test('2 errors at imbalance.ledger', async () => {
 		await testDiagnostics(docUri, [
 			{
 				message: 'imbalanced transaction, (total amount) = -1800 JPY',
