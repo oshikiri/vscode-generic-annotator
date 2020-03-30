@@ -42,4 +42,6 @@ jobs:
       env:
           CODE_VERSION: ''
           DISPLAY: ':99.0'
-      run: npm test
+      run: |
+        cd server && npm test && cd -
+        npm test
