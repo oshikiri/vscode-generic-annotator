@@ -1,5 +1,5 @@
 {
-	"name": "vscode-ledgerlint-client",
+	"name": "ledgerlint-client",
 	"description": "VS Code extension for ledgerlint",
 	"author": "Takamasa Oshikiri",
 	"license": "MIT",

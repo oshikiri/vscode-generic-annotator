@@ -13,7 +13,7 @@ export let platformEol: string;
 
 export async function activate(docUri: vscode.Uri) {
 	// The extensionId is `publisher.name` from package.json
-	const ext = vscode.extensions.getExtension('oshikiri.vscode-ledgerlint')!;
+	const ext = vscode.extensions.getExtension('oshikiri.ledgerlint')!;
 	await ext.activate();
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);
