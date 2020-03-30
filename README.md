@@ -7,7 +7,17 @@ VS Code extension for [ledgerlint](https://github.com/oshikiri/ledgerlint).
 
 ## Requirement
 
+- VS Code (>= 1.43)
 - ledgerlint
+
+
+## Development
+
+```sh
+# Build package
+npm i -g vsce
+vsce package
+```
 
 ## License
 
