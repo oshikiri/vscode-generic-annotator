@@ -16,4 +16,14 @@ describe('exec', () => {
 			return expect(execPromise('test 0 -eq 1')).eventually.rejected;
 		});
 	});
+	context('when check $PATH using echo', () => {
+		it('contains $HOME/.local/bin', () => {
+			return expect(execPromise('echo $PATH')).eventually.be.a('string').and.match(/\/\.local\/bin/);
+		});
+	});
+	context('when ledgerlint -h command is passed', () => {
+		it('returns a fulfilled promise', () => {
+			return expect(execPromise('ledgerlint -h')).eventually.be.a('string').and.match(/^Usage of ledgerlint/);
+		});
+	});
 });
