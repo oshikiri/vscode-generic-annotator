@@ -6,6 +6,9 @@ import {
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
+	CompletionItem,
+	CompletionItemKind,
+	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
 	Range,
@@ -162,6 +165,18 @@ connection.onDidChangeWatchedFiles(_change => {
 	// Monitored files have change in VSCode
 	connection.console.log('We received an file change event');
 });
+
+connection.onCompletion(
+	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
+		return [];
+	}
+);
+
+connection.onCompletionResolve(
+	(item: CompletionItem): CompletionItem => {
+		return item;
+	}
+);
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events
