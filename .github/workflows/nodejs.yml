@@ -24,10 +24,7 @@ jobs:
 
         wget --no-verbose https://github.com/oshikiri/ledgerlint/releases/download/v${LEDGERLINT_VERSION}/${FILENAME}
         tar xzvf ${FILENAME}
-
-        mkdir -p $HOME/.local/bin
-        PATH=$PATH:$HOME/.local/bin
-        mv ledgerlint $HOME/.local/bin
+        sudo mv ledgerlint /usr/local/bin/
     - name: Setup
       run: npm install
     - name: Compile
