@@ -2,6 +2,8 @@ import * as util from 'util';
 
 const exec = util.promisify(require('child_process').exec);
 
+class ExecError extends Error {}
+
 export async function execPromise(command: string): Promise<string> {
 	let stdout: string;
 	let stderr: string = '';
@@ -14,6 +16,6 @@ export async function execPromise(command: string): Promise<string> {
 		// console.log({stdout});
 		return stdout;
 	} catch (err) {
-		throw Error(`command = ${command}\nerr = ${err}\nstderr = ${stderr}`);
+		throw new ExecError(`command = ${command}\nerr = ${err}\nstderr = ${stderr}`);
 	}
 }
