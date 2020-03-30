@@ -23,7 +23,7 @@ describe('exec', () => {
 	});
 	context('when ledgerlint -h command is passed', () => {
 		it('returns a fulfilled promise', () => {
-			return expect(execPromise('/home/runner/.local/bin/ledgerlint -h')).eventually.be.a('string').and.match(/^Usage of ledgerlint/);
+			return expect(execPromise('/home/runner/.local/bin/ledgerlint -h || test $? -eq 2')).eventually.be.a('string').and.match(/^Usage of ledgerlint/);
 		});
 	});
 });
