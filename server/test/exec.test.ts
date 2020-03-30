@@ -1,10 +1,19 @@
-import { execPromise } from '../src/exec';
+import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised);
+const expect = chai.expect;
+
+const { execPromise } = require('./../src/exec');
 
 describe('exec', () => {
-	test('Run echo command', async ()=>{
-		return expect(execPromise('echo Hi')).resolves.toEqual('Hi\n');
+	context('when an echo command is passed', () => {
+		it('returns a fulfilled promise', async ()=>{
+			return expect(execPromise('echo Hi')).eventually.equal('Hi\n');
+		});
 	});
-	test('Run failing command', async ()=>{
-		return expect(execPromise('test 0 -eq 1')).rejects;
+	context('when a failing command is passed', () => {
+		it('returns rejected promise', async ()=>{
+			return expect(execPromise('test 0 -eq 1')).eventually.rejected;
+		});
 	});
 });

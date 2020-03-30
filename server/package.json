@@ -16,21 +16,16 @@
 		"vscode-languageserver-textdocument": "^1.0.1"
 	},
 	"scripts": {
-		"test": "./node_modules/.bin/jest"
+		"test": "./node_modules/.bin/mocha --require ts-node/register test/*.test.ts"
 	},
 	"devDependencies": {
-		"@types/jest": "^25.1.4",
-		"jest": "^25.2.4",
-		"ts-jest": "^25.2.1",
+		"@types/chai": "^4.2.11",
+		"@types/chai-as-promised": "^7.1.2",
+		"@types/mocha": "^7.0.2",
+		"chai": "^4.2.0",
+		"chai-as-promised": "^7.1.1",
+		"mocha": "^7.1.1",
 		"ts-node": "^8.8.1",
 		"typescript": "^3.8.3"
-	},
-	"jest": {
-		"testMatch": [
-			"<rootDir>/test/*.ts"
-		],
-		"transform": {
-			"^.+\\.tsx?$": "ts-jest"
-		}
 	}
 }
