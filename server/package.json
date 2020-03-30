@@ -15,5 +15,17 @@
 		"vscode-languageserver": "^6.1.1",
 		"vscode-languageserver-textdocument": "^1.0.1"
 	},
-	"scripts": {}
+	"scripts": {
+		"test": "./node_modules/.bin/mocha --require ts-node/register test/*.test.ts"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.2.11",
+		"@types/chai-as-promised": "^7.1.2",
+		"@types/mocha": "^7.0.2",
+		"chai": "^4.2.0",
+		"chai-as-promised": "^7.1.1",
+		"mocha": "^7.1.1",
+		"ts-node": "^8.8.1",
+		"typescript": "^3.8.3"
+	}
 }
