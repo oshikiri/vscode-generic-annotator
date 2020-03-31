@@ -21,7 +21,7 @@ export async function runLedgerLint(absPath: string): Promise<LedgerLintError[]>
 	const lines = String(stdout).split('\n');
 	const errors: LedgerLintError[] = [];
 	lines.forEach(line => {
-		const m = line.match(/^([\w\d\./]+):(\d+)\s+(.+)$/);
+		const m = line.match(/^([\w\d\./-]+):(\d+)\s+(.+)$/);
 		if (m === null) {
 			return;
 		}
