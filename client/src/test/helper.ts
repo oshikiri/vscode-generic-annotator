@@ -19,8 +19,6 @@ export async function activate(docUri: vscode.Uri) {
 		doc = await vscode.workspace.openTextDocument(docUri);
 		editor = await vscode.window.showTextDocument(doc);
 
-		await vscode.workspace.getConfiguration().update('ledgerlint.accountsPath', 'testFixture/accounts.txt');
-
 		await sleep(2000); // Wait for server activation
 	} catch (e) {
 		console.error(e);
