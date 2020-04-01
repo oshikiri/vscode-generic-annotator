@@ -22,7 +22,7 @@ suite('diagnostics tests', () => {
 		]);
 	});
 
-	test('unknown-account.ledger', async () => {
+	test.skip('unknown-account.ledger', async () => {
 		const docUri = getDocUri('unknown-account.ledger');
 		await activate(docUri);
 
