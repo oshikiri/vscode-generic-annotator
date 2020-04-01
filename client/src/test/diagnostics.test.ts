@@ -5,7 +5,7 @@ import { getDocUri, activate } from './helper';
 suite('diagnostics tests', () => {
 	const config = vscode.workspace.getConfiguration('ledgerlint');
 
-	suiteTeardown(async () => {
+	teardown(async () => {
 		await config.update('accountsPath', '');
 	});
 
