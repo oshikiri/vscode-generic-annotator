@@ -5,7 +5,7 @@ import { getDocUri, activate } from './helper';
 suite('diagnostics tests', () => {
 	const docUri = getDocUri('imbalance.ledger');
 
-	test('2 errors at imbalance.ledger', async () => {
+	test('imbalance.ledger', async () => {
 		await testDiagnostics(docUri, [
 			{
 				message: 'imbalanced transaction, (total amount) = -1800 JPY',
@@ -16,6 +16,16 @@ suite('diagnostics tests', () => {
 			{
 				message: 'imbalanced transaction, (total amount) = -18000 JPY',
 				range: toRange(4, 0, 4, 80),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'ledgerlint',
+			},
+		]);
+	});
+	test('unknown-account.ledger', async () => {
+		await testDiagnostics(docUri, [
+			{
+				message: 'unknown account: Assets:Unknown',
+				range: toRange(3, 0, 3, 80),
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'ledgerlint',
 			},
