@@ -28,7 +28,7 @@ suite('diagnostics tests', () => {
 
 		const config = vscode.workspace.getConfiguration('ledgerlint');
 		console.log(config);
-		await config.update('accountsPath', 'testFixture/accounts.txt');
+		// await config.update('accountsPath', 'testFixture/accounts.txt');
 
 		await testDiagnostics(docUri, [
 			{
