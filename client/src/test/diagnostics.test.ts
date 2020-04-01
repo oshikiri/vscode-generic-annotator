@@ -3,9 +3,9 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('diagnostics tests', () => {
-	const docUri = getDocUri('imbalance.ledger');
 
 	test('imbalance.ledger', async () => {
+		const docUri = getDocUri('imbalance.ledger');
 		await testDiagnostics(docUri, [
 			{
 				message: 'imbalanced transaction, (total amount) = -1800 JPY',
@@ -21,7 +21,9 @@ suite('diagnostics tests', () => {
 			},
 		]);
 	});
+
 	test('unknown-account.ledger', async () => {
+		const docUri = getDocUri('unknown-account.ledger');
 		await testDiagnostics(docUri, [
 			{
 				message: 'unknown account: Assets:Unknown',
