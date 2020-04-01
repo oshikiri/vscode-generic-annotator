@@ -3,7 +3,7 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('diagnostics tests', () => {
-	test.skip('imbalance.ledger', async () => {
+	test('imbalance.ledger', async () => {
 		const docUri = getDocUri('imbalance.ledger');
 		await activate(docUri);
 		await testDiagnostics(docUri, [
@@ -27,6 +27,7 @@ suite('diagnostics tests', () => {
 		await activate(docUri);
 
 		const config = vscode.workspace.getConfiguration('ledgerlint');
+		console.log(config);
 		await config.update('accountsPath', 'testFixture/accounts.txt');
 
 		await testDiagnostics(docUri, [
@@ -38,7 +39,7 @@ suite('diagnostics tests', () => {
 			},
 		]);
 
-		await config.update('accountsPath', '');
+		// await config.update('accountsPath', '');
 	});
 });
 
