@@ -7,6 +7,7 @@ suite('diagnostics tests', () => {
 
 	test('imbalance.ledger', async () => {
 		const docUri = getDocUri('imbalance.ledger');
+		await activate(docUri);
 		await testDiagnostics(docUri, [
 			{
 				message: 'imbalanced transaction, (total amount) = -1800 JPY',
@@ -25,8 +26,8 @@ suite('diagnostics tests', () => {
 
 	test('unknown-account.ledger', async () => {
 		const docUri = getDocUri('unknown-account.ledger');
+		await activate(docUri);
 		await config.update('accountsPath', 'testFixture/accounts.txt');
-
 		await testDiagnostics(docUri, [
 			{
 				message: 'unknown account: Assets:Unknown',
@@ -47,7 +48,6 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 }
 
 async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
-	await activate(docUri);
 
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
