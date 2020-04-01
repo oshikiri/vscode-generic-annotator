@@ -3,6 +3,11 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('diagnostics tests', () => {
+	const config = vscode.workspace.getConfiguration('ledgerlint');
+
+	afterEach(async () => {
+		await config.update('accountsPath', 't');
+	});
 
 	test('imbalance.ledger', async () => {
 		const docUri = getDocUri('imbalance.ledger');
@@ -24,9 +29,7 @@ suite('diagnostics tests', () => {
 
 	test('unknown-account.ledger', async () => {
 		const docUri = getDocUri('unknown-account.ledger');
-
-		const config = vscode.workspace.getConfiguration('ledgerlint');
-		await config.update('ledgerlint.accountsPath', 'testFixture/accounts.txt');
+		await config.update('accountsPath', 'testFixture/accounts.txt');
 
 		await testDiagnostics(docUri, [
 			{
