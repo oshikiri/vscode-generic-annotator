@@ -27,8 +27,10 @@ suite('diagnostics tests', () => {
 		await activate(docUri);
 
 		const config = vscode.workspace.getConfiguration('ledgerlint', docUri);
-		await config.update('accountsPath', 'testFixture/accounts.txt', false);
-		assert.equal({config}, {});
+
+		await config.update('accountsPath', 'testFixture/accounts.txt').then(() => {
+			assert.equal({config}, {});
+		});
 
 		await testDiagnostics(docUri, [
 			{
