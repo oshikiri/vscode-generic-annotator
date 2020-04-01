@@ -5,8 +5,8 @@ import { getDocUri, activate } from './helper';
 suite('diagnostics tests', () => {
 	const config = vscode.workspace.getConfiguration('ledgerlint');
 
-	afterEach(async () => {
-		await config.update('accountsPath', 't');
+	suiteTeardown(async () => {
+		await config.update('accountsPath', '');
 	});
 
 	test('imbalance.ledger', async () => {
