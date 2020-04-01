@@ -26,7 +26,7 @@ suite('diagnostics tests', () => {
 		const docUri = getDocUri('unknown-account.ledger');
 		await activate(docUri);
 
-		const config = vscode.workspace.getConfiguration('ledgerlint');
+		const config = vscode.workspace.getConfiguration('ledgerlint', docUri);
 		await config.update('accountsPath', 'testFixture/accounts.txt', false);
 		assert.equal({config}, {});
 
