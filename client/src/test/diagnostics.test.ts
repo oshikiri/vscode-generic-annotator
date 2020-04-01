@@ -3,8 +3,6 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('diagnostics tests', () => {
-	const config = vscode.workspace.getConfiguration('ledgerlint');
-
 	test.skip('imbalance.ledger', async () => {
 		const docUri = getDocUri('imbalance.ledger');
 		await activate(docUri);
@@ -27,7 +25,10 @@ suite('diagnostics tests', () => {
 	test('unknown-account.ledger', async () => {
 		const docUri = getDocUri('unknown-account.ledger');
 		await activate(docUri);
+
+		const config = vscode.workspace.getConfiguration('ledgerlint');
 		await config.update('accountsPath', 'testFixture/accounts.txt');
+
 		await testDiagnostics(docUri, [
 			{
 				message: 'unknown account: Assets:Unknown',
@@ -37,7 +38,7 @@ suite('diagnostics tests', () => {
 			},
 		]);
 
-		// await config.update('accountsPath', '');
+		await config.update('accountsPath', '');
 	});
 });
 
