@@ -24,6 +24,10 @@ suite('diagnostics tests', () => {
 
 	test('unknown-account.ledger', async () => {
 		const docUri = getDocUri('unknown-account.ledger');
+
+		const config = vscode.workspace.getConfiguration('ledgerlint');
+		await config.update('ledgerlint.accountsPath', 'testFixture/accounts.txt');
+
 		await testDiagnostics(docUri, [
 			{
 				message: 'unknown account: Assets:Unknown',
