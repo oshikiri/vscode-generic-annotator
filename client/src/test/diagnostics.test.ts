@@ -29,8 +29,6 @@ suite('diagnostics tests', () => {
 		let configuration = await vscode.workspace.getConfiguration();
 		await configuration.update('ledgerlint.accountsPath', 'testFixture/accounts.txt', vscode.ConfigurationTarget.Global);
 
-		assert.equal({config: vscode.workspace.getConfiguration()}, {});
-
 		await testDiagnostics(docUri, [
 			{
 				message: 'unknown account: Assets:Unknown',
