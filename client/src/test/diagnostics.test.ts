@@ -3,9 +3,9 @@ import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
 suite('diagnostics tests', () => {
-	const docUri = getDocUri('imbalance.ledger');
-
-	test('2 errors at imbalance.ledger', async () => {
+	test('imbalance.ledger', async () => {
+		const docUri = getDocUri('imbalance.ledger');
+		await activate(docUri);
 		await testDiagnostics(docUri, [
 			{
 				message: 'imbalanced transaction, (total amount) = -1800 JPY',
@@ -21,6 +21,23 @@ suite('diagnostics tests', () => {
 			},
 		]);
 	});
+
+	test.skip('unknown-account.ledger', async () => {
+		const docUri = getDocUri('unknown-account.ledger');
+		await activate(docUri);
+
+		const configuration = await vscode.workspace.getConfiguration();
+		await configuration.update('ledgerlint.accountsPath', 'testFixture/accounts.txt', vscode.ConfigurationTarget.Global);
+
+		await testDiagnostics(docUri, [
+			{
+				message: 'unknown account: Assets:Unknown',
+				range: toRange(3, 0, 3, 80),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'ledgerlint',
+			},
+		]);
+	});
 });
 
 function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
@@ -30,8 +47,6 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 }
 
 async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
-	await activate(docUri);
-
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
 	assert.equal(actualDiagnostics.length, expectedDiagnostics.length, `Unexpected number of diagnostics`);

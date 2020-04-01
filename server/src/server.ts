@@ -86,12 +86,16 @@ connection.onInitialized(() => {
 // The example settings
 interface ExampleSettings {
 	maxNumberOfProblems: number;
+	accountsPath: string;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
+const defaultSettings: ExampleSettings = {
+	maxNumberOfProblems: 1000,
+	accountsPath: '',
+};
 let globalSettings: ExampleSettings = defaultSettings;
 
 // Cache the settings of all open documents
@@ -103,7 +107,7 @@ connection.onDidChangeConfiguration(change => {
 		documentSettings.clear();
 	} else {
 		globalSettings = <ExampleSettings>(
-			(change.settings.languageServerExample || defaultSettings)
+			(change.settings.ledgerlint || defaultSettings)
 		);
 	}
 
@@ -119,7 +123,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'languageServerExample'
+			section: 'ledgerlint'
 		});
 		documentSettings.set(resource, result);
 	}
@@ -138,13 +142,16 @@ documents.onDidChangeContent(change => {
 });
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+	const settings = await getDocumentSettings(textDocument.uri);
+	const accountPath = settings.accountsPath;
+
 	const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
 	if (path === undefined) {
 		return;
 	}
 
 	let diagnostics: Diagnostic[] = [];
-	(await runLedgerLint(path)).forEach (lintError => {
+	(await runLedgerLint(path, accountPath)).forEach (lintError => {
 		const lineNumber = lintError.lineNumber;
 		const range = Range.create(lineNumber, 0, lineNumber, 80);
 		const diagnostic: Diagnostic = {
