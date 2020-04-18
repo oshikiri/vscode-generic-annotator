@@ -9,7 +9,9 @@
 		"url": "https://github.com/oshikiri/vscode-ledgerlint"
 	},
 	"publisher": "oshikiri",
-	"categories": [],
+	"categories": [
+		"Linters"
+	],
 	"keywords": [
 		"multi-root ready"
 	],
