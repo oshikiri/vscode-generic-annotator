@@ -1,0 +1,3 @@
+Expenses:Food
+Expenses:Lunch
+Assets:Cash
