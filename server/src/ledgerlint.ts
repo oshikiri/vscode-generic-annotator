@@ -4,32 +4,40 @@ export class LedgerLintError {
 	filePath: string;
 	lineNumber: number;
 	message: string;
+	logLevel: string;
 	constructor(
 		filePath: string,
 		lineNumber: number,
-		message: string
+		message: string,
+		logLevel: string,
 	) {
 		this.filePath = filePath;
 		this.lineNumber = lineNumber;
 		this.message = message;
+		this.logLevel = logLevel;
 	}
 }
 
 export async function runLedgerLint(absPath: string, accountPath: string): Promise<LedgerLintError[]> {
-	let command = `ledgerlint -f $(realpath --relative-to=. ${absPath})`;
+	let command = `ledgerlint -j -f $(realpath --relative-to=. ${absPath})`;
 	if (accountPath !== '') {
 		command += ` -account ${accountPath}`;
 	}
 
 	const stdout = await execPromise(command);
-	const lines = String(stdout).split('\n');
+	const errorJsons = String(stdout).split('\n');
 	const errors: LedgerLintError[] = [];
-	lines.forEach(line => {
-		const m = line.match(/^([\w\d\./-]+):(\d+)\s+(.+)$/);
-		if (m === null) {
+	errorJsons.forEach(errorJson => {
+		if (errorJson === "") {
 			return;
 		}
-		const error = new LedgerLintError(absPath, Number(m[2])-1, m[3]);
+		const rawError = JSON.parse(errorJson)
+		const error = new LedgerLintError(
+			rawError['file_path'],
+			Number(rawError['line_number'])-1,
+			rawError['error_message'],
+			rawError['level']
+		);
 		errors.push(error);
 	});
 

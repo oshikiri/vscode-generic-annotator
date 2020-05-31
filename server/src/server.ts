@@ -155,11 +155,17 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 		const lineNumber = lintError.lineNumber;
 		const range = Range.create(lineNumber, 0, lineNumber, 80);
 		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Error,
 			range,
 			message: lintError.message,
 			source: 'ledgerlint'
 		};
+		if (lintError.logLevel === "WARN") {
+			diagnostic.severity = DiagnosticSeverity.Warning;
+		} else if (lintError.logLevel === "ERROR") {
+			diagnostic.severity = DiagnosticSeverity.Error;
+		} else {
+			diagnostic.severity = DiagnosticSeverity.Information;
+		}
 
 		diagnostics.push(diagnostic);
 	});
