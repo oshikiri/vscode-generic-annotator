@@ -19,7 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Setup ledgerlint
       run: |
-        LEDGERLINT_VERSION=0.0.2
+        LEDGERLINT_VERSION=0.0.5
         FILENAME=ledgerlint_${LEDGERLINT_VERSION}_linux_amd64.tar.gz
 
         wget --no-verbose https://github.com/oshikiri/ledgerlint/releases/download/v${LEDGERLINT_VERSION}/${FILENAME}
