@@ -2,17 +2,26 @@ import { execPromise } from "./exec";
 
 export class LintMessage {
   filePath: string;
-  lineNumber: number;
+  startLineNumber: number;
+  endLineNumber: number;
+  startCharacterposition: number;
+  endCharacterposition: number;
   message: string;
   logLevel: string;
   constructor(
     filePath: string,
-    lineNumber: number,
+    startLineNumber: number,
+    endLineNumber: number,
+    startCharacterposition: number,
+    endCharacterposition: number,
     message: string,
     logLevel: string
   ) {
     this.filePath = filePath;
-    this.lineNumber = lineNumber;
+    this.startLineNumber = startLineNumber;
+    this.endLineNumber = endLineNumber;
+    this.startCharacterposition = startCharacterposition;
+    this.endCharacterposition = endCharacterposition;
     this.message = message;
     this.logLevel = logLevel;
   }
@@ -35,12 +44,16 @@ export async function runLedgerLint(
       return;
     }
     const rawError = JSON.parse(lingMsgJson);
-    const lintMsg = new LintMessage(
-      rawError["file_path"],
-      Number(rawError["line_number"]) - 1,
-      rawError["error_message"],
-      rawError["level"]
-    );
+    const lintMsg: LintMessage = {
+      filePath: rawError["file_path"],
+      startLineNumber: Number(rawError["line_number"]) - 1,
+      endLineNumber: Number(rawError["line_number"]) - 1,
+      startCharacterposition: 0,
+      endCharacterposition: 80,
+      message: rawError["error_message"],
+      logLevel: rawError["level"],
+    };
+
     messages.push(lintMsg);
   });
 

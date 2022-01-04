@@ -150,8 +150,12 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
   let diagnostics: Diagnostic[] = [];
   (await runLedgerLint(path, accountPath)).forEach((lintMsg) => {
-    const lineNumber = lintMsg.lineNumber;
-    const range = Range.create(lineNumber, 0, lineNumber, 80);
+    const range = Range.create(
+      lintMsg.startLineNumber,
+      lintMsg.startCharacterposition,
+      lintMsg.endLineNumber,
+      lintMsg.endCharacterposition
+    );
     const diagnostic: Diagnostic = {
       range,
       message: lintMsg.message,
