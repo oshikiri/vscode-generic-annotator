@@ -1,31 +1,5 @@
 import { execPromise } from "./exec";
-
-export class LintMessage {
-  filePath: string;
-  startLineNumber: number;
-  endLineNumber: number;
-  startCharacterposition: number;
-  endCharacterposition: number;
-  message: string;
-  logLevel: string;
-  constructor(
-    filePath: string,
-    startLineNumber: number,
-    endLineNumber: number,
-    startCharacterposition: number,
-    endCharacterposition: number,
-    message: string,
-    logLevel: string
-  ) {
-    this.filePath = filePath;
-    this.startLineNumber = startLineNumber;
-    this.endLineNumber = endLineNumber;
-    this.startCharacterposition = startCharacterposition;
-    this.endCharacterposition = endCharacterposition;
-    this.message = message;
-    this.logLevel = logLevel;
-  }
-}
+import { LintMessage } from "./lint-message";
 
 export async function runLedgerLint(absPath: string): Promise<LintMessage[]> {
   const command = `ledgerlint -j -f $(realpath --relative-to=. ${absPath})`;
