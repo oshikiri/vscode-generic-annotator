@@ -149,17 +149,17 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   }
 
   let diagnostics: Diagnostic[] = [];
-  (await runLedgerLint(path, accountPath)).forEach((lintError) => {
-    const lineNumber = lintError.lineNumber;
+  (await runLedgerLint(path, accountPath)).forEach((lintMsg) => {
+    const lineNumber = lintMsg.lineNumber;
     const range = Range.create(lineNumber, 0, lineNumber, 80);
     const diagnostic: Diagnostic = {
       range,
-      message: lintError.message,
+      message: lintMsg.message,
       source: "ledgerlint",
     };
-    if (lintError.logLevel === "WARN") {
+    if (lintMsg.logLevel === "WARN") {
       diagnostic.severity = DiagnosticSeverity.Warning;
-    } else if (lintError.logLevel === "ERROR") {
+    } else if (lintMsg.logLevel === "ERROR") {
       diagnostic.severity = DiagnosticSeverity.Error;
     } else {
       diagnostic.severity = DiagnosticSeverity.Information;
