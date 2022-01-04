@@ -20,6 +20,7 @@ export async function runLedgerLint(absPath: string): Promise<LintMessage[]> {
       endCharacterposition: 80,
       message: rawError["error_message"],
       logLevel: rawError["level"],
+      source: "ledgerlint",
     };
 
     messages.push(lintMsg);

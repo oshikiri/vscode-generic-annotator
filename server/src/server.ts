@@ -153,22 +153,18 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
     return;
   }
 
-  const diagnostics: Diagnostic[] = [];
-  (await runLedgerLint(path)).forEach((lintMsg) => {
-    const diagnostic: Diagnostic = {
-      range: Range.create(
-        lintMsg.startLineNumber,
-        lintMsg.startCharacterposition,
-        lintMsg.endLineNumber,
-        lintMsg.endCharacterposition
-      ),
-      message: lintMsg.message,
-      source: "ledgerlint",
-      severity: getSeverity(lintMsg.logLevel),
-    };
-
-    diagnostics.push(diagnostic);
-  });
+  const lintMsgs = await runLedgerLint(path);
+  const diagnostics: Diagnostic[] = lintMsgs.map((lintMsg) => ({
+    range: Range.create(
+      lintMsg.startLineNumber,
+      lintMsg.startCharacterposition,
+      lintMsg.endLineNumber,
+      lintMsg.endCharacterposition
+    ),
+    message: lintMsg.message,
+    source: lintMsg.source,
+    severity: getSeverity(lintMsg.logLevel),
+  }));
 
   // Send the computed diagnostics to VSCode.
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });

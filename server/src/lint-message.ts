@@ -6,4 +6,5 @@ export interface LintMessage {
   endCharacterposition: number;
   message: string;
   logLevel: string;
+  source: string;
 }
