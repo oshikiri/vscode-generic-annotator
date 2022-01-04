@@ -1,22 +1,18 @@
 import {
   createConnection,
   TextDocuments,
-  Diagnostic,
-  DiagnosticSeverity,
   ProposedFeatures,
   InitializeParams,
   DidChangeConfigurationNotification,
   CompletionItem,
-  CompletionItemKind,
   TextDocumentPositionParams,
   TextDocumentSyncKind,
   InitializeResult,
-  Range,
 } from "vscode-languageserver";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { getLintMessages } from "./ledgerlint";
+import { getDiagnostics } from "./ledgerlint";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -139,16 +135,6 @@ documents.onDidChangeContent((change) => {
   validateTextDocument(change.document);
 });
 
-function getSeverity(logLevel: string): DiagnosticSeverity {
-  if (logLevel === "WARN") {
-    return DiagnosticSeverity.Warning;
-  } else if (logLevel === "ERROR") {
-    return DiagnosticSeverity.Error;
-  } else {
-    return DiagnosticSeverity.Information;
-  }
-}
-
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
   if (path === undefined) {
@@ -157,18 +143,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
   const settings = await getDocumentSettings(textDocument.uri);
   const command = settings.commandTemplate.replace("${path}", path);
-  const lintMsgs = await getLintMessages(command);
-  const diagnostics: Diagnostic[] = lintMsgs.map((lintMsg) => ({
-    range: Range.create(
-      lintMsg.startLineNumber,
-      lintMsg.startCharacterposition,
-      lintMsg.endLineNumber,
-      lintMsg.endCharacterposition
-    ),
-    message: lintMsg.message,
-    source: lintMsg.source,
-    severity: getSeverity(lintMsg.logLevel),
-  }));
+  const diagnostics = await getDiagnostics(command);
 
   // Send the computed diagnostics to VSCode.
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });

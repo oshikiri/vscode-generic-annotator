@@ -1,31 +1,38 @@
 import { execPromise } from "./exec";
-import { LintMessage } from "./lint-message";
+import { Diagnostic, Range, DiagnosticSeverity } from "vscode-languageserver";
 
-export function convertToLintMsg(obj: any): LintMessage {
+function getSeverity(logLevel: string): DiagnosticSeverity {
+  if (logLevel === "WARN") {
+    return DiagnosticSeverity.Warning;
+  } else if (logLevel === "ERROR") {
+    return DiagnosticSeverity.Error;
+  } else {
+    return DiagnosticSeverity.Information;
+  }
+}
+
+function convertToDiagnostic(obj: any): Diagnostic {
+  const lineNumber = Number(obj["line_number"]) - 1;
   return {
-    filePath: obj["file_path"],
-    startLineNumber: Number(obj["line_number"]) - 1,
-    endLineNumber: Number(obj["line_number"]) - 1,
-    startCharacterposition: 0,
-    endCharacterposition: 80,
+    range: Range.create(lineNumber, 0, lineNumber, 80),
     message: obj["error_message"],
-    logLevel: obj["level"],
     source: "ledgerlint", // FIXME
+    severity: getSeverity(obj["level"]),
   };
 }
 
-export async function getLintMessages(command: string): Promise<LintMessage[]> {
+export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
   const stdout = await execPromise(command);
   const lintMsgJsons = String(stdout).split("\n");
-  const messages: LintMessage[] = [];
+  const diagnostics: Diagnostic[] = [];
   lintMsgJsons.forEach((lingMsgJson) => {
     if (lingMsgJson === "") {
       return;
     }
     const rawError = JSON.parse(lingMsgJson);
-    const lintMsg: LintMessage = convertToLintMsg(rawError);
-    messages.push(lintMsg);
+    const diagnostic = convertToDiagnostic(rawError);
+    diagnostics.push(diagnostic);
   });
 
-  return messages;
+  return diagnostics;
 }
