@@ -55,10 +55,12 @@
   },
   "scripts": {
     "vscode:prepublish": "cd client && cd .. && npm run compile",
-    "precompile": "prettier --check **/*.ts",
+    "precompile": "npm run format-check && npm run lint",
     "compile": "tsc -b",
+    "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
     "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "test": "cd server && npm test && cd - && sh ./scripts/e2e.sh"
   },
