@@ -84,7 +84,6 @@ connection.onInitialized(() => {
 // The example settings
 interface ExampleSettings {
   maxNumberOfProblems: number;
-  accountsPath: string;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -92,7 +91,6 @@ interface ExampleSettings {
 // but could happen with other clients.
 const defaultSettings: ExampleSettings = {
   maxNumberOfProblems: 1000,
-  accountsPath: "",
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
@@ -140,16 +138,13 @@ documents.onDidChangeContent((change) => {
 });
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-  const settings = await getDocumentSettings(textDocument.uri);
-  const accountPath = settings.accountsPath;
-
   const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
   if (path === undefined) {
     return;
   }
 
   let diagnostics: Diagnostic[] = [];
-  (await runLedgerLint(path, accountPath)).forEach((lintMsg) => {
+  (await runLedgerLint(path)).forEach((lintMsg) => {
     const range = Range.create(
       lintMsg.startLineNumber,
       lintMsg.startCharacterposition,
