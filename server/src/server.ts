@@ -12,7 +12,7 @@ import {
 
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { getDiagnostics } from "./ledgerlint";
+import { getDiagnostics } from './diagnostics';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
