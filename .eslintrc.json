@@ -8,6 +8,7 @@
 		"node": true
 	},
 	"rules": {
+		"prefer-const": "error",
 		"semi": "error",
 		"no-extra-semi": "warn",
 		"curly": "warn",

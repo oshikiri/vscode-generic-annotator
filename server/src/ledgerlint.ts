@@ -28,7 +28,7 @@ export class LintMessage {
 }
 
 export async function runLedgerLint(absPath: string): Promise<LintMessage[]> {
-  let command = `ledgerlint -j -f $(realpath --relative-to=. ${absPath})`;
+  const command = `ledgerlint -j -f $(realpath --relative-to=. ${absPath})`;
 
   const stdout = await execPromise(command);
   const lintMsgJsons = String(stdout).split("\n");

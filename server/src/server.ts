@@ -20,18 +20,18 @@ import { runLedgerLint } from "./ledgerlint";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-let connection = createConnection(ProposedFeatures.all);
+const connection = createConnection(ProposedFeatures.all);
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
-let documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
+const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
-  let capabilities = params.capabilities;
+  const capabilities = params.capabilities;
 
   // Does the client support the `workspace/configuration` request?
   // If not, we will fall back using global settings
@@ -95,7 +95,7 @@ const defaultSettings: ExampleSettings = {
 let globalSettings: ExampleSettings = defaultSettings;
 
 // Cache the settings of all open documents
-let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
 
 connection.onDidChangeConfiguration((change) => {
   if (hasConfigurationCapability) {
@@ -143,7 +143,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
     return;
   }
 
-  let diagnostics: Diagnostic[] = [];
+  const diagnostics: Diagnostic[] = [];
   (await runLedgerLint(path)).forEach((lintMsg) => {
     const range = Range.create(
       lintMsg.startLineNumber,
