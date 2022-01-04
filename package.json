@@ -55,9 +55,10 @@
   },
   "scripts": {
     "vscode:prepublish": "cd client && cd .. && npm run compile",
+    "precompile": "prettier --check **/*.ts",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
-    "format": "prettier -w **/*.ts",
+    "format": "prettier --write **/*.ts",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "test": "cd server && npm test && cd - && sh ./scripts/e2e.sh"
   },
