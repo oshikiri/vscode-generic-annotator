@@ -16,7 +16,7 @@ import {
 
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { runLedgerLint } from "./ledgerlint";
+import { getLintMessages } from "./ledgerlint";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -84,6 +84,7 @@ connection.onInitialized(() => {
 // The example settings
 interface ExampleSettings {
   maxNumberOfProblems: number;
+  commandTemplate: string;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -91,6 +92,7 @@ interface ExampleSettings {
 // but could happen with other clients.
 const defaultSettings: ExampleSettings = {
   maxNumberOfProblems: 1000,
+  commandTemplate: "ledgerlint -j -f $(realpath --relative-to=. ${path})",
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
@@ -153,7 +155,9 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
     return;
   }
 
-  const lintMsgs = await runLedgerLint(path);
+  const settings = await getDocumentSettings(textDocument.uri);
+  const command = settings.commandTemplate.replace("${path}", path);
+  const lintMsgs = await getLintMessages(command);
   const diagnostics: Diagnostic[] = lintMsgs.map((lintMsg) => ({
     range: Range.create(
       lintMsg.startLineNumber,

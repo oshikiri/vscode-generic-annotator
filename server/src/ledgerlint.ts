@@ -1,9 +1,20 @@
 import { execPromise } from "./exec";
 import { LintMessage } from "./lint-message";
 
-export async function runLedgerLint(absPath: string): Promise<LintMessage[]> {
-  const command = `ledgerlint -j -f $(realpath --relative-to=. ${absPath})`;
+export function convertToLintMsg(obj: any): LintMessage {
+  return {
+    filePath: obj["file_path"],
+    startLineNumber: Number(obj["line_number"]) - 1,
+    endLineNumber: Number(obj["line_number"]) - 1,
+    startCharacterposition: 0,
+    endCharacterposition: 80,
+    message: obj["error_message"],
+    logLevel: obj["level"],
+    source: "ledgerlint", // FIXME
+  };
+}
 
+export async function getLintMessages(command: string): Promise<LintMessage[]> {
   const stdout = await execPromise(command);
   const lintMsgJsons = String(stdout).split("\n");
   const messages: LintMessage[] = [];
@@ -12,17 +23,7 @@ export async function runLedgerLint(absPath: string): Promise<LintMessage[]> {
       return;
     }
     const rawError = JSON.parse(lingMsgJson);
-    const lintMsg: LintMessage = {
-      filePath: rawError["file_path"],
-      startLineNumber: Number(rawError["line_number"]) - 1,
-      endLineNumber: Number(rawError["line_number"]) - 1,
-      startCharacterposition: 0,
-      endCharacterposition: 80,
-      message: rawError["error_message"],
-      logLevel: rawError["level"],
-      source: "ledgerlint",
-    };
-
+    const lintMsg: LintMessage = convertToLintMsg(rawError);
     messages.push(lintMsg);
   });
 
