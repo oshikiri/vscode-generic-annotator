@@ -21,27 +21,6 @@ suite("diagnostics tests", () => {
       },
     ]);
   });
-
-  test.skip("unknown-account.ledger", async () => {
-    const docUri = getDocUri("unknown-account.ledger");
-    await activate(docUri);
-
-    const configuration = await vscode.workspace.getConfiguration();
-    await configuration.update(
-      "ledgerlint.accountsPath",
-      "testFixture/accounts.txt",
-      vscode.ConfigurationTarget.Global
-    );
-
-    await testDiagnostics(docUri, [
-      {
-        message: "unknown account: Assets:Unknown",
-        range: toRange(3, 0, 3, 80),
-        severity: vscode.DiagnosticSeverity.Error,
-        source: "ledgerlint",
-      },
-    ]);
-  });
 });
 
 function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {

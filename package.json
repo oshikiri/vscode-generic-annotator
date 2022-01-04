@@ -27,12 +27,6 @@
       "type": "object",
       "title": "ledgerlint",
       "properties": {
-        "ledgerlint.accountsPath": {
-          "scope": "resource",
-          "type": "string",
-          "default": "",
-          "description": "Path of known accounts file (default is 'do not run account checking'"
-        },
         "ledgerlint.maxNumberOfProblems": {
           "scope": "resource",
           "type": "number",
