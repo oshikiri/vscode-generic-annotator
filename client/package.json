@@ -1,22 +1,22 @@
 {
-	"name": "ledgerlint-client",
-	"description": "VS Code extension for ledgerlint",
-	"author": "Takamasa Oshikiri",
-	"license": "MIT",
-	"version": "0.0.1",
-	"publisher": "oshikiri",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/oshikiri/vscode-ledgerlint"
-	},
-	"engines": {
-		"vscode": "^1.43.0"
-	},
-	"dependencies": {
-		"vscode-languageclient": "^6.1.3"
-	},
-	"devDependencies": {
-		"@types/vscode": "1.43.0",
-		"vscode-test": "^1.3.0"
-	}
+  "name": "ledgerlint-client",
+  "description": "VS Code extension for ledgerlint",
+  "author": "Takamasa Oshikiri",
+  "license": "MIT",
+  "version": "0.0.1",
+  "publisher": "oshikiri",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oshikiri/vscode-ledgerlint"
+  },
+  "engines": {
+    "vscode": "^1.43.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^6.1.3"
+  },
+  "devDependencies": {
+    "@types/vscode": "1.43.0",
+    "vscode-test": "^1.3.0"
+  }
 }

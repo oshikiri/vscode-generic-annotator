@@ -1,71 +1,74 @@
 {
-	"name": "ledgerlint",
-	"description": "VS Code extension for ledgerlint",
-	"author": "Takamasa Oshikiri",
-	"license": "MIT",
-	"version": "1.0.0",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/oshikiri/vscode-ledgerlint"
-	},
-	"publisher": "oshikiri",
-	"categories": [
-		"Linters"
-	],
-	"keywords": [
-		"multi-root ready"
-	],
-	"engines": {
-		"vscode": "^1.43.0"
-	},
-	"activationEvents": [
-		"onLanguage:ledger"
-	],
-	"main": "./client/out/extension",
-	"contributes": {
-		"configuration": {
-			"type": "object",
-			"title": "ledgerlint",
-			"properties": {
-				"ledgerlint.accountsPath": {
-					"scope": "resource",
-					"type": "string",
-					"default": "",
-					"description": "Path of known accounts file (default is 'do not run account checking'"
-				},
-				"ledgerlint.maxNumberOfProblems": {
-					"scope": "resource",
-					"type": "number",
-					"default": 100,
-					"description": "Controls the maximum number of problems produced by the server."
-				}
-			}
-		},
-		"languages": [
-			{
-				"id": "ledger",
-				"aliases": [
-					"Ledger journal"
-				],
-				"extensions": [
-					".ledger"
-				]
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "cd client && cd .. && npm run compile",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w",
-		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "cd server && npm test && cd - && sh ./scripts/e2e.sh"
-	},
-	"devDependencies": {
-		"@types/mocha": "^7.0.2",
-		"mocha": "^7.2.0",
-		"@types/node": "^12.11.7",
-		"eslint": "^7.1.0",
-		"@typescript-eslint/parser": "^3.0.2",
-		"typescript": "^3.9.3"
-	}
+  "name": "ledgerlint",
+  "description": "VS Code extension for ledgerlint",
+  "author": "Takamasa Oshikiri",
+  "license": "MIT",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oshikiri/vscode-ledgerlint"
+  },
+  "publisher": "oshikiri",
+  "categories": [
+    "Linters"
+  ],
+  "keywords": [
+    "multi-root ready"
+  ],
+  "engines": {
+    "vscode": "^1.43.0"
+  },
+  "activationEvents": [
+    "onLanguage:ledger"
+  ],
+  "main": "./client/out/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "ledgerlint",
+      "properties": {
+        "ledgerlint.accountsPath": {
+          "scope": "resource",
+          "type": "string",
+          "default": "",
+          "description": "Path of known accounts file (default is 'do not run account checking'"
+        },
+        "ledgerlint.maxNumberOfProblems": {
+          "scope": "resource",
+          "type": "number",
+          "default": 100,
+          "description": "Controls the maximum number of problems produced by the server."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "ledger",
+        "aliases": [
+          "Ledger journal"
+        ],
+        "extensions": [
+          ".ledger"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "cd client && cd .. && npm run compile",
+    "precompile": "prettier --check **/*.ts",
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "format": "prettier --write **/*.ts",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "test": "cd server && npm test && cd - && sh ./scripts/e2e.sh"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^12.11.7",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint": "^7.1.0",
+    "mocha": "^7.2.0",
+    "prettier": "^2.5.1",
+    "typescript": "^3.9.3"
+  }
 }
