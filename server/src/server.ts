@@ -137,6 +137,16 @@ documents.onDidChangeContent((change) => {
   validateTextDocument(change.document);
 });
 
+function getSeverity(logLevel: string): DiagnosticSeverity {
+  if (logLevel === "WARN") {
+    return DiagnosticSeverity.Warning;
+  } else if (logLevel === "ERROR") {
+    return DiagnosticSeverity.Error;
+  } else {
+    return DiagnosticSeverity.Information;
+  }
+}
+
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   const path = textDocument.uri.match(/file:\/\/(.+)/)?.[1];
   if (path === undefined) {
@@ -145,24 +155,17 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
   const diagnostics: Diagnostic[] = [];
   (await runLedgerLint(path)).forEach((lintMsg) => {
-    const range = Range.create(
-      lintMsg.startLineNumber,
-      lintMsg.startCharacterposition,
-      lintMsg.endLineNumber,
-      lintMsg.endCharacterposition
-    );
     const diagnostic: Diagnostic = {
-      range,
+      range: Range.create(
+        lintMsg.startLineNumber,
+        lintMsg.startCharacterposition,
+        lintMsg.endLineNumber,
+        lintMsg.endCharacterposition
+      ),
       message: lintMsg.message,
       source: "ledgerlint",
+      severity: getSeverity(lintMsg.logLevel),
     };
-    if (lintMsg.logLevel === "WARN") {
-      diagnostic.severity = DiagnosticSeverity.Warning;
-    } else if (lintMsg.logLevel === "ERROR") {
-      diagnostic.severity = DiagnosticSeverity.Error;
-    } else {
-      diagnostic.severity = DiagnosticSeverity.Information;
-    }
 
     diagnostics.push(diagnostic);
   });
