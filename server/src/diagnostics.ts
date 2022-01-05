@@ -23,14 +23,13 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
   const stdout = await execPromise(command);
   const lintMsgJsons = String(stdout).split("\n");
   const diagnostics: Diagnostic[] = [];
-  lintMsgJsons.forEach((lingMsgJson) => {
-    if (lingMsgJson === "") {
+  lintMsgJsons.forEach((lintMsgJson) => {
+    if (lintMsgJson === "") {
       return;
     }
-    const rawError = JSON.parse(lingMsgJson);
-    const diagnostic = convertToDiagnostic(rawError);
+    const lintMsg = JSON.parse(lintMsgJson);
+    const diagnostic = convertToDiagnostic(lintMsg);
     diagnostics.push(diagnostic);
   });
-
   return diagnostics;
 }
