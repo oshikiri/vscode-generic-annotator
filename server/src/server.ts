@@ -86,11 +86,9 @@ interface ExampleSettings {
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultCommandTemplate =
-  "ledgerlint -j -f $(realpath --relative-to=. ${path})";
 const defaultSettings: ExampleSettings = {
   maxNumberOfProblems: 1000,
-  commandTemplate: defaultCommandTemplate,
+  commandTemplate: "",
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
@@ -144,8 +142,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   }
 
   const settings = await getDocumentSettings(textDocument.uri);
-  const commandTemplate = settings.commandTemplate || defaultCommandTemplate;
-  const command = commandTemplate.replace("${path}", path);
+  const command = settings?.commandTemplate?.replace("${path}", path);
   const diagnostics = await getDiagnostics(command);
 
   // Send the computed diagnostics to VSCode.
