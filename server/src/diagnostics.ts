@@ -1,23 +1,13 @@
 import { execPromise } from "./exec";
-import { Diagnostic, Range, DiagnosticSeverity } from "vscode-languageserver";
-
-function getSeverity(logLevel: string): DiagnosticSeverity {
-  if (logLevel === "WARN") {
-    return DiagnosticSeverity.Warning;
-  } else if (logLevel === "ERROR") {
-    return DiagnosticSeverity.Error;
-  } else {
-    return DiagnosticSeverity.Information;
-  }
-}
+import { Diagnostic, Range } from "vscode-languageserver";
 
 function convertToDiagnostic(obj: any): Diagnostic {
   const lineNumber = Number(obj["line_number"]) - 1;
   return {
     range: Range.create(lineNumber, 0, lineNumber, 80),
     message: obj["error_message"],
-    source: "ledgerlint", // FIXME
-    severity: getSeverity(obj["level"]),
+    source: obj["source"],
+    severity: obj["severity"],
   };
 }
 
