@@ -3,7 +3,7 @@
   "description": "VS Code extension for ledgerlint",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/oshikiri/vscode-ledgerlint"
@@ -27,6 +27,12 @@
       "type": "object",
       "title": "ledgerlint",
       "properties": {
+        "ledgerlint.commandTemplate": {
+          "scope": "resource",
+          "type": "string",
+          "default": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+          "description": "command template (${path} will be replace by absolute path of focus file)"
+        },
         "ledgerlint.maxNumberOfProblems": {
           "scope": "resource",
           "type": "number",
