@@ -13,7 +13,7 @@ function convertToRange(obj: any): Range {
 function convertToDiagnostic(obj: any): Diagnostic {
   return {
     range: convertToRange(obj["range"]),
-    message: obj["error_message"],
+    message: obj["message"],
     source: obj["source"],
     severity: obj["severity"],
   };
