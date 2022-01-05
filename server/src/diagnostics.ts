@@ -1,10 +1,18 @@
 import { execPromise } from "./exec";
 import { Diagnostic, Range } from "vscode-languageserver";
 
+function convertToRange(obj: any): Range {
+  return Range.create(
+    obj["startLine"],
+    obj["startCharacter"],
+    obj["endLine"],
+    obj["endCharacter"]
+  );
+}
+
 function convertToDiagnostic(obj: any): Diagnostic {
-  const lineNumber = Number(obj["line_number"]) - 1;
   return {
-    range: Range.create(lineNumber, 0, lineNumber, 80),
+    range: convertToRange(obj["range"]),
     message: obj["error_message"],
     source: obj["source"],
     severity: obj["severity"],
