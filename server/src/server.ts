@@ -90,8 +90,15 @@ interface ExampleSettings {
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
+
+// NOTE: Tests starts to fail if do not set defaultSettings
 const defaultSettings: ExampleSettings = {
-  linterConfigurations: [],
+  linterConfigurations: [
+    {
+      commandTemplate: "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+      pathRegex: ".ledger$",
+    },
+  ],
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
