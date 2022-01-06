@@ -50,18 +50,7 @@
           ]
         }
       }
-    },
-    "languages": [
-      {
-        "id": "ledger",
-        "aliases": [
-          "Ledger journal"
-        ],
-        "extensions": [
-          ".ledger"
-        ]
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "cd client && cd .. && npm run compile",
