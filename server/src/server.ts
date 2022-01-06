@@ -8,7 +8,6 @@ import {
   TextDocumentPositionParams,
   TextDocumentSyncKind,
   InitializeResult,
-  Diagnostic,
 } from "vscode-languageserver";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -79,13 +78,9 @@ connection.onInitialized(() => {
 });
 
 // The example settings
-interface LinterConfiguration {
-  pathRegex: string;
-  commandTemplate: string;
-}
 interface ExampleSettings {
   maxNumberOfProblems: number;
-  linterConfigurations: LinterConfiguration[];
+  commandTemplate: string;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -93,7 +88,7 @@ interface ExampleSettings {
 // but could happen with other clients.
 const defaultSettings: ExampleSettings = {
   maxNumberOfProblems: 1000,
-  linterConfigurations: [],
+  commandTemplate: "",
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
@@ -147,15 +142,8 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   }
 
   const settings = await getDocumentSettings(textDocument.uri);
-  let diagnostics: Diagnostic[] = [];
-  for (const config of settings?.linterConfigurations) {
-    if (path.match(new RegExp(config.pathRegex))) {
-      const command = config.commandTemplate?.replace("${path}", path);
-      if (command) {
-        diagnostics = diagnostics.concat(await getDiagnostics(command));
-      }
-    }
-  }
+  const command = settings?.commandTemplate?.replace("${path}", path);
+  const diagnostics = await getDiagnostics(command);
 
   // Send the computed diagnostics to VSCode.
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
