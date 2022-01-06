@@ -1,4 +1,10 @@
 {
+	"ledgerlint.linterConfigurations": [
+        {
+            "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+            "pathRegex": ".ledger$"
+        }
+    ],
 	"editor.insertSpaces": false,
 	"tslint.enable": true,
 	"typescript.tsc.autoDetect": "off",
