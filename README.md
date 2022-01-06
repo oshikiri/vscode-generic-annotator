@@ -1,14 +1,15 @@
-vscode-ledgerlint
+vscode-anylint
 =====
 
-VS Code extension for [ledgerlint](https://github.com/oshikiri/ledgerlint).
+VS Code extension for linters
+
+ex. [ledgerlint](https://github.com/oshikiri/ledgerlint).
 
 ![screenshot](./doc/screenshot.png)
 
 ## Requirement
 
 - VS Code (>= 1.43)
-- ledgerlint
 
 
 ## Development
@@ -23,7 +24,7 @@ vsce package
 ## .vscode/settings.json
 ```json
 {
-	"ledgerlint.linterConfigurations": [
+	"anylint.linterConfigurations": [
         {
             "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
             "pathRegex": ".ledger$"

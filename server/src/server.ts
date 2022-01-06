@@ -105,7 +105,7 @@ connection.onDidChangeConfiguration((change) => {
     documentSettings.clear();
   } else {
     globalSettings = <ExampleSettings>(
-      (change.settings.ledgerlint || defaultSettings)
+      (change.settings.anylint || defaultSettings)
     );
   }
 
@@ -121,7 +121,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
   if (!result) {
     result = connection.workspace.getConfiguration({
       scopeUri: resource,
-      section: "ledgerlint",
+      section: "anylint",
     });
     documentSettings.set(resource, result);
   }
