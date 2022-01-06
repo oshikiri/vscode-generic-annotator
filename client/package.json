@@ -1,13 +1,13 @@
 {
-  "name": "ledgerlint-client",
-  "description": "VS Code extension for ledgerlint",
+  "name": "anylint-client",
+  "description": "VS Code extension for linters",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
   "version": "0.0.1",
   "publisher": "oshikiri",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oshikiri/vscode-ledgerlint"
+    "url": "https://github.com/oshikiri/vscode-anylint"
   },
   "engines": {
     "vscode": "^1.43.0"

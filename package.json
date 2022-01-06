@@ -1,12 +1,12 @@
 {
-  "name": "ledgerlint",
-  "description": "VS Code extension for ledgerlint",
+  "name": "anylint",
+  "description": "VS Code extension for linters",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
   "version": "1.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oshikiri/vscode-ledgerlint"
+    "url": "https://github.com/oshikiri/vscode-anylint"
   },
   "publisher": "oshikiri",
   "categories": [
@@ -25,9 +25,9 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "ledgerlint",
+      "title": "anylint",
       "properties": {
-        "ledgerlint.linterConfigurations": {
+        "anylint.linterConfigurations": {
           "type": "array",
           "items": {
             "type": "object",
