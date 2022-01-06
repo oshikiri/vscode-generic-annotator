@@ -27,11 +27,27 @@
       "type": "object",
       "title": "ledgerlint",
       "properties": {
-        "ledgerlint.commandTemplate": {
-          "scope": "resource",
-          "type": "string",
-          "default": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
-          "description": "command template (${path} will be replace by absolute path of focus file)"
+        "ledgerlint.linterConfigurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pathRegex": {
+                "type": "string",
+                "description": ""
+              },
+              "commandTemplate": {
+                "type": "string",
+                "description": "command template (${path} will be replace by absolute path of focus file)"
+              }
+            }
+          },
+          "default": [
+            {
+              "pathRegex": ".ledger$",
+              "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})"
+            }
+          ]
         }
       }
     },

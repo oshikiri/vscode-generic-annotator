@@ -19,6 +19,19 @@ npm i -g vsce
 vsce package
 ```
 
+
+## .vscode/settings.json
+```json
+{
+	"ledgerlint.linterConfigurations": [
+        {
+            "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+            "pathRegex": ".ledger$"
+        }
+    ]
+}
+```
+
 ## License
 
 MIT
