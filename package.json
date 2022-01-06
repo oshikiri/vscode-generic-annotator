@@ -19,7 +19,7 @@
     "vscode": "^1.43.0"
   },
   "activationEvents": [
-    "onLanguage:ledger"
+    "onStartupFinished"
   ],
   "main": "./client/out/extension",
   "contributes": {
@@ -27,11 +27,23 @@
       "type": "object",
       "title": "ledgerlint",
       "properties": {
-        "ledgerlint.commandTemplate": {
-          "scope": "resource",
-          "type": "string",
-          "default": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
-          "description": "command template (${path} will be replace by absolute path of focus file)"
+        "ledgerlint.linterConfigurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pathRegex": {
+                "type": "string",
+                "default": ".ledger$",
+                "description": ""
+              },
+              "commandTemplate": {
+                "type": "string",
+                "default": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+                "description": "command template (${path} will be replace by absolute path of focus file)"
+              }
+            }
+          }
         },
         "ledgerlint.maxNumberOfProblems": {
           "scope": "resource",
