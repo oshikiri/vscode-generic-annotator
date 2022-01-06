@@ -79,7 +79,6 @@ connection.onInitialized(() => {
 
 // The example settings
 interface ExampleSettings {
-  maxNumberOfProblems: number;
   commandTemplate: string;
 }
 
@@ -87,7 +86,6 @@ interface ExampleSettings {
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
 const defaultSettings: ExampleSettings = {
-  maxNumberOfProblems: 1000,
   commandTemplate: "",
 };
 let globalSettings: ExampleSettings = defaultSettings;
