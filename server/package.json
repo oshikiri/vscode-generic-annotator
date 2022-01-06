@@ -16,7 +16,7 @@
     "vscode-languageserver-textdocument": "^1.0.1"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --require ts-node/register test/*.test.ts"
+    "test": "mocha --require ts-node/register test/*.test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
