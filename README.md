@@ -24,12 +24,23 @@ vsce package
 ## .vscode/settings.json
 ```json
 {
-	"anylint.linterConfigurations": [
-        {
-            "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
-            "pathRegex": ".ledger$"
-        }
-    ]
+  "anylint.linterConfigurations": [
+    {
+      "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
+      "pathRegex": ".ledger$"
+    }
+  ]
+}
+
+```
+```json
+{
+  "anylint.linterConfigurations": [
+    {
+      "commandTemplate": "node scripts/example_linter.js $(realpath --relative-to=. ${path})",
+      "pathRegex": ".ledger$"
+    }
+  ]
 }
 ```
 
