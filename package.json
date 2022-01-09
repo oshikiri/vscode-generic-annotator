@@ -1,12 +1,13 @@
 {
-  "name": "anylint",
+  "name": "generic-annotator",
+  "displayName": "Generic Annotator",
   "description": "VS Code extension for linters",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
   "version": "1.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oshikiri/vscode-anylint"
+    "url": "https://github.com/oshikiri/vscode-generic-annotator"
   },
   "publisher": "oshikiri",
   "categories": [
@@ -25,9 +26,9 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "anylint",
+      "title": "generic-annotator",
       "properties": {
-        "anylint.linterConfigurations": {
+        "genericAnnotator.linterConfigurations": {
           "type": "array",
           "items": {
             "type": "object",
