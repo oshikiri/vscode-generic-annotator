@@ -2,6 +2,7 @@
   "name": "generic-annotator",
   "displayName": "Generic Annotator",
   "description": "VS Code extension for linters",
+  "icon": "icon.png",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
   "version": "1.1.0",
