@@ -1,4 +1,4 @@
-vscode-anylint
+vscode-generic-annotator
 =====
 
 VS Code extension for linters
@@ -24,7 +24,7 @@ vsce package
 ## .vscode/settings.json
 ```json
 {
-  "anylint.linterConfigurations": [
+  "genericAnnotator.linterConfigurations": [
     {
       "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
       "pathRegex": ".ledger$"
@@ -35,7 +35,7 @@ vsce package
 ```
 ```json
 {
-  "anylint.linterConfigurations": [
+  "genericAnnotator.linterConfigurations": [
     {
       "commandTemplate": "node scripts/example_linter.js $(realpath --relative-to=. ${path})",
       "pathRegex": ".ledger$"

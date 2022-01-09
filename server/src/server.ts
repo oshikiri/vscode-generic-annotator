@@ -105,7 +105,7 @@ connection.onDidChangeConfiguration((change) => {
     documentSettings.clear();
   } else {
     globalSettings = <ExampleSettings>(
-      (change.settings.anylint || defaultSettings)
+      (change.settings.genericAnnotator || defaultSettings)
     );
   }
 
@@ -121,7 +121,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
   if (!result) {
     result = connection.workspace.getConfiguration({
       scopeUri: resource,
-      section: "anylint",
+      section: "genericAnnotator",
     });
     documentSettings.set(resource, result);
   }

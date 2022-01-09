@@ -1,5 +1,5 @@
 {
-  "name": "anylint-client",
+  "name": "generic-annotator-client",
   "description": "VS Code extension for linters",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
@@ -7,7 +7,7 @@
   "publisher": "oshikiri",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oshikiri/vscode-anylint"
+    "url": "https://github.com/oshikiri/vscode-generic-annotator"
   },
   "engines": {
     "vscode": "^1.43.0"

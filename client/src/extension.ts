@@ -33,8 +33,8 @@ export function activate(context: ExtensionContext) {
   };
 
   client = new LanguageClient(
-    "anylint",
-    "anylint",
+    "genericAnnotator",
+    "genericAnnotator",
     serverOptions,
     clientOptions
   );
