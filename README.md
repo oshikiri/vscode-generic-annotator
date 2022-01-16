@@ -45,15 +45,6 @@ See scripts/regex.js
 - VS Code (>= 1.43)
 
 
-## Development
-
-```sh
-# Build package
-npm i -g vsce
-vsce package
-```
-
-
 ## License
 
 MIT
