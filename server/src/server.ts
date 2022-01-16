@@ -84,7 +84,7 @@ interface LinterConfiguration {
   commandTemplate: string;
 }
 interface ExampleSettings {
-  linterConfigurations: LinterConfiguration[];
+  annotatorConfigurations: LinterConfiguration[];
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -92,7 +92,7 @@ interface ExampleSettings {
 // but could happen with other clients.
 
 const defaultSettings: ExampleSettings = {
-  linterConfigurations: [],
+  annotatorConfigurations: [],
 };
 let globalSettings: ExampleSettings = defaultSettings;
 
@@ -147,7 +147,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
   const settings = await getDocumentSettings(textDocument.uri);
   let diagnostics: Diagnostic[] = [];
-  for (const config of settings?.linterConfigurations) {
+  for (const config of settings?.annotatorConfigurations) {
     if (path.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate?.replace("${path}", path);
       if (command) {

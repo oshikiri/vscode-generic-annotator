@@ -29,7 +29,7 @@
       "type": "object",
       "title": "genericAnnotator",
       "properties": {
-        "genericAnnotator.linterConfigurations": {
+        "genericAnnotator.annotatorConfigurations": {
           "type": "array",
           "items": {
             "type": "object",
