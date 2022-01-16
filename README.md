@@ -6,8 +6,8 @@ VS Code extension for linters
 
 ## Usage examples
 ### [ledgerlint](https://github.com/oshikiri/ledgerlint)
+.vscode/settings.json
 ```json
-// .vscode/settings.json
 {
   "genericAnnotator.annotatorConfigurations": [
     {
@@ -22,12 +22,14 @@ VS Code extension for linters
 
 
 ### Regex
+See scripts/regex.js
+
+.vscode/settings.json
 ```json
-// .vscode/settings.json
 {
   "genericAnnotator.annotatorConfigurations": [
     {
-      "commandTemplate": "node scripts/regex.js $(realpath --relative-to=. ${path}) '\\d{4}-\\d{2}-\\d{2}'",
+      "commandTemplate": "node /path/to/regex.js ${path} '\\d{4}-\\d{2}-\\d{2}'",
       "pathRegex": "\\.ledger$"
     }
   ]
