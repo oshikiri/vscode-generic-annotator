@@ -44,12 +44,7 @@
               }
             }
           },
-          "default": [
-            {
-              "pathRegex": ".ledger$",
-              "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})"
-            }
-          ]
+          "default": []
         }
       }
     }
