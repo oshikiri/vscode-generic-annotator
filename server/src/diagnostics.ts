@@ -29,7 +29,15 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
     }
     const lintMsg = JSON.parse(lintMsgJson);
     const diagnostic = convertToDiagnostic(lintMsg);
-    diagnostics.push(diagnostic);
+    if (isValidDiagnostic(diagnostic)) {
+      diagnostics.push(diagnostic);
+    } else {
+      console.log(`range error: ${JSON.stringify(diagnostic)}`);
+    }
   });
   return diagnostics;
+}
+
+function isValidDiagnostic(diagnostic: Diagnostic): boolean {
+  return diagnostic?.range?.start?.line >= 0;
 }
