@@ -20,21 +20,25 @@ function convertToDiagnostic(obj: any): Diagnostic {
 }
 
 export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
-  const stdout = await execPromise(command);
-  const lintMsgJsons = String(stdout).split("\n");
   const diagnostics: Diagnostic[] = [];
-  lintMsgJsons.forEach((lintMsgJson) => {
-    if (lintMsgJson === "") {
-      return;
-    }
-    const lintMsg = JSON.parse(lintMsgJson);
-    const diagnostic = convertToDiagnostic(lintMsg);
-    if (isValidDiagnostic(diagnostic)) {
-      diagnostics.push(diagnostic);
-    } else {
-      console.log(`range error: ${JSON.stringify(diagnostic)}`);
-    }
-  });
+  try {
+    const stdout = await execPromise(command);
+    const lintMsgJsons = String(stdout).split("\n");
+    lintMsgJsons.forEach((lintMsgJson) => {
+      if (lintMsgJson === "") {
+        return;
+      }
+      const lintMsg = JSON.parse(lintMsgJson);
+      const diagnostic = convertToDiagnostic(lintMsg);
+      if (isValidDiagnostic(diagnostic)) {
+        diagnostics.push(diagnostic);
+      } else {
+        console.log(`range error: ${JSON.stringify(diagnostic)}`);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
   return diagnostics;
 }
 
