@@ -36,8 +36,20 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
         console.log(`range error: ${JSON.stringify(diagnostic)}`);
       }
     });
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
+    const diagnostic = convertToDiagnostic({
+      range: {
+        startLine: 0,
+        endLine: 0,
+        startCharacter: 0,
+        endCharacter: 100,
+      },
+      message: "Runtime error: \n" + err.message,
+      source: command,
+      severity: 1,
+    });
+    diagnostics.push(diagnostic);
   }
   return diagnostics;
 }
