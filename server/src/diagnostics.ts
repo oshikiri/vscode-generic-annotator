@@ -4,9 +4,9 @@ import { Diagnostic, Range } from "vscode-languageserver";
 function convertToRange(obj: any): Range {
   return Range.create(
     obj["startLine"],
-    obj["startCharacter"],
+    obj["startCharacter"] || 0,
     obj["endLine"],
-    obj["endCharacter"]
+    obj["endCharacter"] || 100
   );
 }
 
