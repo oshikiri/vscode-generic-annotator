@@ -61,8 +61,8 @@
     "package": "vsce package",
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
-    "format": "prettier --write {client}/**/*.ts",
-    "format-check": "prettier --check {client}/**/*.ts",
+    "format": "prettier --write client/**/*.ts",
+    "format-check": "prettier --check client/**/*.ts",
     "postinstall": "cd client && npm install && cd ..",
     "test": "cd client && npm test && cd - && sh ./scripts/e2e.sh"
   },
