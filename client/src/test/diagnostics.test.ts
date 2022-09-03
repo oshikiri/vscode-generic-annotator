@@ -10,13 +10,13 @@ suite("diagnostics tests", () => {
       {
         message: "imbalanced transaction, (total amount) = -1800 JPY",
         range: toRange(0, 0, 0, 80),
-        severity: vscode.DiagnosticSeverity.Error,
+        severity: 1,
         source: "ledgerlint",
       },
       {
         message: "imbalanced transaction, (total amount) = -18000 JPY",
         range: toRange(4, 0, 4, 80),
-        severity: vscode.DiagnosticSeverity.Error,
+        severity: 1,
         source: "ledgerlint",
       },
     ]);
@@ -35,7 +35,7 @@ async function testDiagnostics(
 ) {
   const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
-  assert.equal(
+  assert.strictEqual(
     actualDiagnostics.length,
     expectedDiagnostics.length,
     `Unexpected number of diagnostics`
@@ -44,17 +44,17 @@ async function testDiagnostics(
   expectedDiagnostics.forEach((expectedDiagnostic, i) => {
     const actualDiagnostic = actualDiagnostics[i];
     console.log(JSON.stringify(actualDiagnostic));
-    assert.equal(
+    assert.strictEqual(
       actualDiagnostic.message,
       expectedDiagnostic.message,
       "Message unmatched"
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       actualDiagnostic.range,
       expectedDiagnostic.range,
       "Unexpected range"
     );
-    assert.equal(
+    assert.strictEqual(
       actualDiagnostic.severity,
       expectedDiagnostic.severity,
       "Unexpected severity"
