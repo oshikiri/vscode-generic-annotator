@@ -43,6 +43,7 @@ async function testDiagnostics(
 
   expectedDiagnostics.forEach((expectedDiagnostic, i) => {
     const actualDiagnostic = actualDiagnostics[i];
+    console.log(actualDiagnostic);
     assert.equal(
       actualDiagnostic.message,
       expectedDiagnostic.message,
