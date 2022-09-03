@@ -1,8 +1,8 @@
 import { execPromise } from "./exec";
-import { Diagnostic, Range } from "vscode-languageserver";
+import { Diagnostic, Range } from "vscode";
 
 function convertToRange(obj: any): Range {
-  return Range.create(
+  return new Range(
     obj["startLine"],
     obj["startCharacter"] || 0,
     obj["endLine"],
