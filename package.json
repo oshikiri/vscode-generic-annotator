@@ -61,10 +61,10 @@
     "package": "vsce package",
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
-    "format": "prettier --write {client,server}/**/*.ts",
-    "format-check": "prettier --check {client,server}/**/*.ts",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-    "test": "cd server && npm test && cd - && sh ./scripts/e2e.sh"
+    "format": "prettier --write {client}/**/*.ts",
+    "format-check": "prettier --check {client}/**/*.ts",
+    "postinstall": "cd client && npm install && cd ..",
+    "test": "cd client && npm test && cd - && sh ./scripts/e2e.sh"
   },
   "devDependencies": {
     "@types/mocha": "^9.1.0",

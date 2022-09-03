@@ -3,7 +3,7 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-const { execPromise } = require("./../src/exec");
+const { execPromise } = require("./../exec");
 
 describe("exec", () => {
   context("when an echo command is passed", () => {
