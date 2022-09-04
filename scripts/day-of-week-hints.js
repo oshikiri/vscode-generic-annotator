@@ -1,24 +1,40 @@
-const decodations = [
-  {
+const { readFileSync } = require("fs");
+const { argv } = require("process");
+
+const DAY_OF_WEEKS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+if (argv.length != 3) return;
+const path = argv[2];
+
+const content = readFileSync(path, "utf-8").split("\n");
+for (let i = 0; i < content.length; i++) {
+  const ci = content[i];
+  const re = /\d{4}-\d{2}-\d{2}/gim;
+  const matched = re.exec(ci);
+  if (!matched) {
+    continue;
+  }
+  const [year, month, day] = matched[0].split("-");
+  const date = new Date(year, parseInt(month) - 1, day);
+  const dayIndex = date.getDay();
+  const decodation = {
     range: {
       start: {
-        line: 0,
-        character: 0,
+        line: i,
+        character: matched.index,
       },
       end: {
-        line: 0,
-        character: 10,
+        line: i,
+        character: re.lastIndex,
       },
     },
     renderOptions: {
       after: {
-        contentText: "Thu",
+        contentText: DAY_OF_WEEKS[dayIndex],
         color: "grey",
         margin: "5px",
       },
     },
-  },
-];
-for (const d of decodations) {
-  console.log(JSON.stringify(d));
+  };
+  console.log(JSON.stringify(decodation));
 }
