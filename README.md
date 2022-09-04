@@ -42,12 +42,15 @@ See scripts/regex.js
 
 ## Requirement
 
-- VS Code (>= 1.43)
+- VS Code
 
 
 ## License
 
 MIT
 
-- This repository is based on [lsp-sample](https://github.com/microsoft/vscode-extension-samples/tree/6f16dafc01a248ac39d450ecf56ae73274757644/lsp-sample).
+- This repository is based on
+  - [lsp-sample](https://github.com/microsoft/vscode-extension-samples/tree/6f16dafc01a248ac39d450ecf56ae73274757644/lsp-sample)
+  - [code-actions-sample](https://github.com/microsoft/vscode-extension-samples/tree/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample)
+  - [vscode-js-annotations](https://github.com/lannonbr/vscode-js-annotations)
 - <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
