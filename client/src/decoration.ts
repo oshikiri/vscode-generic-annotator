@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+import { execPromise } from "./exec";
+
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
 export async function setDecorations(
@@ -16,27 +18,38 @@ export async function setDecorations(
 export async function createDecorations(
   editor: vscode.TextEditor
 ): Promise<vscode.DecorationOptions[]> {
-  console.log(editor.document.uri);
-  const decorations: vscode.DecorationOptions[] = [
-    {
-      renderOptions: {
-        before: {
-          contentText: "hogehoge",
-          color: "grey",
-          margin: "5px",
-        },
-      },
-      range: {
-        start: {
-          line: 1,
-          character: 1,
-        },
-        end: {
-          line: 1,
-          character: 3,
-        },
-      } as vscode.Range,
-    },
-  ];
+  const settings = vscode.workspace.getConfiguration(
+    "genericAnnotator",
+    editor.document.uri
+  );
+
+  const path = editor.document.uri.toString().match(/file:\/\/(.+)/)?.[1];
+  if (path === undefined) {
+    return;
+  }
+
+  const decorations: vscode.DecorationOptions[] = [];
+
+  for (const config of settings?.annotatorConfigurations) {
+    if (
+      config.type === "decoration" &&
+      path.match(new RegExp(config.pathRegex))
+    ) {
+      const command = config.commandTemplate?.replace("${path}", path);
+      if (!command) {
+        continue;
+      }
+
+      const commandResult = await execPromise(command);
+      for (const line of commandResult.split("\n")) {
+        if (line.length === 0) {
+          continue;
+        }
+        const obj = JSON.parse(line);
+        decorations.push(obj as vscode.DecorationOptions);
+      }
+    }
+  }
+
   return decorations;
 }

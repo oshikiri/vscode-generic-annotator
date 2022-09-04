@@ -34,7 +34,9 @@ async function refreshDiagnostics(
     doc.uri
   );
   for (const config of settings?.annotatorConfigurations) {
-    if (path.match(new RegExp(config.pathRegex))) {
+    const isValidType =
+      config.type === undefined || config.type === "diagnostic";
+    if (isValidType && path.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate?.replace("${path}", path);
       if (command) {
         diagnostics = diagnostics.concat(await getDiagnostics(command));
