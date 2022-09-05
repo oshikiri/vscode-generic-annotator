@@ -23,19 +23,19 @@ async function refreshDiagnostics(
   doc: vscode.TextDocument,
   diagnosticCollection: vscode.DiagnosticCollection
 ): Promise<void> {
-  const docUri = doc.uri;
-  const path = doc.uri.path;
+  const docUri = doc?.uri;
+  const path = docUri?.path;
   if (path === undefined) {
     return;
   }
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder.uri.path;
+  const workspacePath = folder?.uri?.path || ".";
 
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(
     "genericAnnotator",
-    doc.uri
+    docUri
   );
   for (const config of settings?.annotatorConfigurations) {
     const isValidType =
@@ -49,7 +49,7 @@ async function refreshDiagnostics(
       }
     }
   }
-  diagnosticCollection.set(doc.uri, diagnostics);
+  diagnosticCollection.set(docUri, diagnostics);
 }
 
 function subscribeToDocumentChanges(
