@@ -1,11 +1,21 @@
 import * as vscode from "vscode";
 import { getDiagnostics } from "./diagnostics";
+import { setDecorations } from "./decoration";
 
 export function activate(context: vscode.ExtensionContext) {
+  // Diagnostics
   const diagnostics =
     vscode.languages.createDiagnosticCollection("diagnostics");
   context.subscriptions.push(diagnostics);
   subscribeToDocumentChanges(context, diagnostics);
+
+  // Inlay hints
+  vscode.workspace.onWillSaveTextDocument((event) => {
+    const openEditor = vscode.window.visibleTextEditors.find(
+      (editor) => editor.document.uri === event.document.uri
+    );
+    setDecorations(context, openEditor);
+  });
 }
 
 // https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
@@ -24,7 +34,9 @@ async function refreshDiagnostics(
     doc.uri
   );
   for (const config of settings?.annotatorConfigurations) {
-    if (path.match(new RegExp(config.pathRegex))) {
+    const isValidType =
+      config.type === undefined || config.type === "diagnostic";
+    if (isValidType && path.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate?.replace("${path}", path);
       if (command) {
         diagnostics = diagnostics.concat(await getDiagnostics(command));
