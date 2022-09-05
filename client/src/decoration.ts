@@ -5,7 +5,7 @@ import { execPromise } from "./exec";
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
 export async function setDecorations(
-  ctx: vscode.ExtensionContext,
+  _ctx: vscode.ExtensionContext,
   editor: vscode.TextEditor | undefined
 ): Promise<void> {
   if (!editor) {
@@ -18,16 +18,17 @@ export async function setDecorations(
 export async function createDecorations(
   editor: vscode.TextEditor
 ): Promise<vscode.DecorationOptions[]> {
+  const docUri = editor.document.uri;
   const settings = vscode.workspace.getConfiguration(
     "genericAnnotator",
-    editor.document.uri
+    docUri
   );
 
-  const folder = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+  const folder = vscode.workspace.getWorkspaceFolder(docUri);
   const workspacePath = folder.uri.path;
 
-  const path = editor.document.uri.toString().match(/file:\/\/(.+)/)?.[1];
-  if (path === undefined) {
+  const currentFilePath = docUri.path;
+  if (currentFilePath === undefined) {
     return;
   }
 
@@ -36,10 +37,10 @@ export async function createDecorations(
   for (const config of settings?.annotatorConfigurations) {
     if (
       config.type === "decoration" &&
-      path.match(new RegExp(config.pathRegex))
+      currentFilePath.match(new RegExp(config.pathRegex))
     ) {
       const command = config.commandTemplate
-        ?.replace("${path}", path)
+        ?.replace("${path}", currentFilePath)
         .replace("${workspacePath}", workspacePath);
       if (!command) {
         continue;
