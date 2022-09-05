@@ -23,7 +23,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./client/out/extension",
+  "main": "./out/extension",
   "contributes": {
     "configuration": {
       "type": "object",
@@ -55,25 +55,33 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "cd client && cd .. && npm run compile",
+    "vscode:prepublish": "npm run compile",
     "precompile": "npm run format-check && npm run lint",
     "compile": "tsc -b",
     "package": "vsce package",
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
-    "format": "prettier --write client/**/*.ts",
-    "format-check": "prettier --check client/**/*.ts",
-    "postinstall": "cd client && npm install && cd ..",
-    "test": "cd client && npm test && cd - && sh ./scripts/e2e.sh"
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "test": "mocha --require ts-node/register src/unittest/*.test.ts && sh ./scripts/e2e.sh"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^6.1.3"
   },
   "devDependencies": {
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/vscode": "1.65.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^14",
     "@typescript-eslint/parser": "^5.15.0",
     "eslint": "^8.11.0",
-    "mocha": "^9.2.2",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "typescript": "^4.6.2",
-    "vsce": "^2.11.0"
+    "vsce": "^2.11.0",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "ts-node": "^8.10.2",
+    "vscode-test": "^1.6.1"
   }
 }
