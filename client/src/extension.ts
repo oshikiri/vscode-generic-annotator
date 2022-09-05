@@ -30,7 +30,7 @@ async function refreshDiagnostics(
   }
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder.uri.path;
+  const workspacePath = folder?.uri?.path || ".";
 
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(
@@ -49,7 +49,7 @@ async function refreshDiagnostics(
       }
     }
   }
-  diagnosticCollection.set(doc.uri, diagnostics);
+  diagnosticCollection.set(docUri, diagnostics);
 }
 
 function subscribeToDocumentChanges(
