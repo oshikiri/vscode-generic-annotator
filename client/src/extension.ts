@@ -35,7 +35,7 @@ async function refreshDiagnostics(
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(
     "genericAnnotator",
-    doc.uri
+    docUri
   );
   for (const config of settings?.annotatorConfigurations) {
     const isValidType =
