@@ -23,10 +23,14 @@ async function refreshDiagnostics(
   doc: vscode.TextDocument,
   diagnosticCollection: vscode.DiagnosticCollection
 ): Promise<void> {
-  const path = doc.uri.toString().match(/file:\/\/(.+)/)?.[1];
+  const docUri = doc.uri;
+  const path = doc.uri.path;
   if (path === undefined) {
     return;
   }
+
+  const folder = vscode.workspace.getWorkspaceFolder(docUri);
+  const workspacePath = folder.uri.path;
 
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(
@@ -37,7 +41,9 @@ async function refreshDiagnostics(
     const isValidType =
       config.type === undefined || config.type === "diagnostic";
     if (isValidType && path.match(new RegExp(config.pathRegex))) {
-      const command = config.commandTemplate?.replace("${path}", path);
+      const command = config.commandTemplate
+        ?.replace("${path}", path)
+        .replace("${workspacePath}", workspacePath);
       if (command) {
         diagnostics = diagnostics.concat(await getDiagnostics(command));
       }
