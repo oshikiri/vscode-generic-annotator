@@ -23,6 +23,9 @@ export async function createDecorations(
     editor.document.uri
   );
 
+  const folder = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+  const workspacePath = folder.uri.path;
+
   const path = editor.document.uri.toString().match(/file:\/\/(.+)/)?.[1];
   if (path === undefined) {
     return;
@@ -35,7 +38,9 @@ export async function createDecorations(
       config.type === "decoration" &&
       path.match(new RegExp(config.pathRegex))
     ) {
-      const command = config.commandTemplate?.replace("${path}", path);
+      const command = config.commandTemplate
+        ?.replace("${path}", path)
+        .replace("${workspacePath}", workspacePath);
       if (!command) {
         continue;
       }

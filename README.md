@@ -39,6 +39,24 @@ See scripts/regex.js
 ![screenshot regex](./doc/example_regex.png)
 
 
+### Day-of-week hints
+See scripts/day-of-week-hints.js
+
+.vscode/settings.json
+```json
+{
+  "genericAnnotator.annotatorConfigurations": [
+    {
+      "type": "decoration",
+      "pathRegex": "\\.ledger$",
+      "commandTemplate": "node ${workspacePath}/scripts/day-of-week-hints.js $(realpath --relative-to=. ${path})"
+    }
+  ]
+}
+```
+
+![screenshot day of week hints](./doc/example_dow.png)
+
 
 ## Requirement
 
