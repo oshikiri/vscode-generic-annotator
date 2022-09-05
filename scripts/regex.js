@@ -18,10 +18,14 @@ for (let i = 0; i < content.length; i++) {
     severity: 1,
     message: `Matched ${regexString}`,
     range: {
-      startLine: i,
-      endLine: i,
-      startCharacter: matched.index,
-      endCharacter: re.lastIndex,
+      start: {
+        line: i,
+        character: matched.index,
+      },
+      end: {
+        line: i,
+        character: re.lastIndex,
+      },
     },
   };
   console.log(JSON.stringify(diagnostic));
