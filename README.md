@@ -1,6 +1,13 @@
 vscode-generic-annotator
 =====
 
+TODO
+
+- Refactor extensions.ts
+- merge package.json and client/package.json
+
+-----
+
 VS Code extension for linters
 
 
