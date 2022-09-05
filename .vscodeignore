@@ -9,16 +9,10 @@ contributing.md
 .github/
 scripts/
 
-client/testFixture
-client/node_modules/**
-!client/node_modules/vscode-jsonrpc/**
-!client/node_modules/vscode-languageclient/**
-!client/node_modules/vscode-languageserver-protocol/**
-!client/node_modules/vscode-languageserver-types/**
-!client/node_modules/semver/**
-
-# server/node_modules/**
-# !server/node_modules/vscode-languageserver
-# !server/node_modules/vscode-languageserver-textdocument
-# !server/node_modules/vscode-languageserver-protocol/**
-# !server/node_modules/vscode-languageserver-types/**
+testFixture
+node_modules/**
+!node_modules/vscode-jsonrpc/**
+!node_modules/vscode-languageclient/**
+!node_modules/vscode-languageserver-protocol/**
+!node_modules/vscode-languageserver-types/**
+!node_modules/semver/**
