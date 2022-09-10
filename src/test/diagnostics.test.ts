@@ -49,10 +49,21 @@ async function testDiagnostics(
       expectedDiagnostic.message,
       "Message unmatched"
     );
-    assert.deepStrictEqual(
-      actualDiagnostic.range,
-      expectedDiagnostic.range,
-      "Unexpected range"
+    assert.strictEqual(
+      actualDiagnostic.range.start.line,
+      expectedDiagnostic.range.start.line
+    );
+    assert.strictEqual(
+      actualDiagnostic.range.start.character,
+      expectedDiagnostic.range.start.character
+    );
+    assert.strictEqual(
+      actualDiagnostic.range.end.line,
+      expectedDiagnostic.range.end.line
+    );
+    assert.strictEqual(
+      actualDiagnostic.range.end.character,
+      expectedDiagnostic.range.end.character
     );
     assert.strictEqual(
       actualDiagnostic.severity,

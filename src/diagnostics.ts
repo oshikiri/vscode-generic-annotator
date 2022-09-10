@@ -1,23 +1,5 @@
 import { execPromise } from "./exec";
-import { Diagnostic, Range } from "vscode";
-
-function convertToRange(obj: any): Range {
-  return new Range(
-    obj["startLine"],
-    obj["startCharacter"] || 0,
-    obj["endLine"],
-    obj["endCharacter"] || 100
-  );
-}
-
-function convertToDiagnostic(obj: any): Diagnostic {
-  return {
-    range: convertToRange(obj["range"]),
-    message: obj["message"],
-    source: obj["source"],
-    severity: obj["severity"],
-  };
-}
+import { Diagnostic } from "vscode";
 
 export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
   const diagnostics: Diagnostic[] = [];
@@ -29,7 +11,7 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
         return;
       }
       const lintMsg = JSON.parse(lintMsgJson);
-      const diagnostic = convertToDiagnostic(lintMsg);
+      const diagnostic = lintMsg as Diagnostic;
       if (isValidDiagnostic(diagnostic)) {
         diagnostics.push(diagnostic);
       } else {
@@ -38,17 +20,7 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
     });
   } catch (err: any) {
     console.log(err);
-    const diagnostic = convertToDiagnostic({
-      range: {
-        startLine: 0,
-        endLine: 0,
-        startCharacter: 0,
-        endCharacter: 100,
-      },
-      message: "Runtime error: \n" + err.message,
-      source: command,
-      severity: 1,
-    });
+    const diagnostic = getErrorDiagnostic(err.msg, command);
     diagnostics.push(diagnostic);
   }
   return diagnostics;
@@ -56,4 +28,23 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
 
 function isValidDiagnostic(diagnostic: Diagnostic): boolean {
   return diagnostic?.range?.start?.line >= 0;
+}
+
+function getErrorDiagnostic(message: string, source: string): Diagnostic {
+  const diagnostic = {
+    range: {
+      start: {
+        line: 0,
+        character: 0,
+      },
+      end: {
+        line: 0,
+        character: 100,
+      },
+    },
+    message: "Runtime error: \n" + message,
+    source,
+    severity: 1,
+  } as Diagnostic;
+  return diagnostic;
 }
