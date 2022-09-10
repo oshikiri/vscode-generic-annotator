@@ -12,7 +12,9 @@ export async function setDecorations(
     return;
   }
   const decorations = await createDecorations(editor);
-  editor.setDecorations(decorationType, decorations);
+  if (decorations.length > 0) {
+    editor.setDecorations(decorationType, decorations);
+  }
 }
 
 export async function createDecorations(
@@ -25,11 +27,11 @@ export async function createDecorations(
   );
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder.uri.path;
+  const workspacePath = folder?.uri?.path;
 
   const currentFilePath = docUri.path;
-  if (currentFilePath === undefined) {
-    return;
+  if (currentFilePath === undefined || workspacePath === undefined) {
+    return [];
   }
 
   const decorations: vscode.DecorationOptions[] = [];
