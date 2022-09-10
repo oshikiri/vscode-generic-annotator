@@ -58,8 +58,12 @@ async function testDiagnostics(
       expectedDiagnostic.range.start.character
     );
     assert.strictEqual(
-      actualDiagnostic.range.start,
-      expectedDiagnostic.range.start
+      actualDiagnostic.range.end.line,
+      expectedDiagnostic.range.end.line
+    );
+    assert.strictEqual(
+      actualDiagnostic.range.end.character,
+      expectedDiagnostic.range.end.character
     );
     assert.strictEqual(
       actualDiagnostic.severity,
