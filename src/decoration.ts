@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
 import { execPromise } from "./exec";
+import { outputChannel } from "./vscode_helper";
 
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
@@ -31,16 +32,14 @@ export async function createDecorations(
 
   const currentFilePath = docUri.path;
   if (currentFilePath === undefined || workspacePath === undefined) {
+    outputChannel.appendLine("path is undefined");
     return [];
   }
 
   const decorations: vscode.DecorationOptions[] = [];
 
   for (const config of settings?.annotatorConfigurations) {
-    if (
-      config.type === "decoration" &&
-      currentFilePath.match(new RegExp(config.pathRegex))
-    ) {
+    if (currentFilePath.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate
         ?.replace("${path}", currentFilePath)
         .replace("${workspacePath}", workspacePath);
@@ -54,7 +53,9 @@ export async function createDecorations(
           continue;
         }
         const obj = JSON.parse(line);
-        decorations.push(obj as vscode.DecorationOptions);
+        if (obj["type"] === "decoration") {
+          decorations.push(obj as vscode.DecorationOptions);
+        }
       }
     }
   }

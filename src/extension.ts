@@ -38,9 +38,7 @@ async function refreshDiagnostics(
     docUri
   );
   for (const config of settings?.annotatorConfigurations) {
-    const isValidType =
-      config.type === undefined || config.type === "diagnostic";
-    if (isValidType && path.match(new RegExp(config.pathRegex))) {
+    if (path.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate
         ?.replace("${path}", path)
         .replace("${workspacePath}", workspacePath);
