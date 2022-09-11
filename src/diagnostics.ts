@@ -1,5 +1,6 @@
 import { execPromise } from "./exec";
 import { Diagnostic } from "vscode";
+import { outputChannel } from "./vscode_helper";
 
 export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
   const diagnostics: Diagnostic[] = [];
@@ -15,11 +16,11 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
       if (isValidDiagnostic(diagnostic)) {
         diagnostics.push(diagnostic);
       } else {
-        console.log(`range error: ${JSON.stringify(diagnostic)}`);
+        throw { msg: `invalid diagnostic: ${JSON.stringify(diagnostic)}` };
       }
     });
   } catch (err: any) {
-    console.log(err);
+    outputChannel.appendLine(err);
     const diagnostic = getErrorDiagnostic(err.msg, command);
     diagnostics.push(diagnostic);
   }
@@ -44,7 +45,7 @@ function getErrorDiagnostic(message: string, source: string): Diagnostic {
     },
     message: "Runtime error: \n" + message,
     source,
-    severity: 1,
+    severity: 0,
   } as Diagnostic;
   return diagnostic;
 }
