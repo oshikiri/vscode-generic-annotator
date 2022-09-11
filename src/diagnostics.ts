@@ -11,7 +11,12 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
       if (lintMsgJson === "") {
         return;
       }
+
       const lintMsg = JSON.parse(lintMsgJson);
+      if (lintMsg["type"] !== "diagnostic") {
+        return;
+      }
+
       const diagnostic = lintMsg as Diagnostic;
       if (isValidDiagnostic(diagnostic)) {
         diagnostics.push(diagnostic);
@@ -27,6 +32,7 @@ export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
   return diagnostics;
 }
 
+// FIXME
 function isValidDiagnostic(diagnostic: Diagnostic): boolean {
   return diagnostic?.range?.start?.line >= 0;
 }
