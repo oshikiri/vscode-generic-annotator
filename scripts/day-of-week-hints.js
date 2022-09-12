@@ -18,6 +18,7 @@ for (let i = 0; i < content.length; i++) {
   const date = new Date(year, parseInt(month) - 1, day);
   const dayIndex = date.getDay();
   const decodation = {
+    type: "decoration",
     range: {
       start: {
         line: i,
