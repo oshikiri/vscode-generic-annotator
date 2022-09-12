@@ -41,7 +41,7 @@ async function refreshDiagnostics(
     if (path.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate
         ?.replace("${path}", path)
-        .replace("${workspacePath}", workspacePath);
+        .replace("${workspaceRoot}", workspacePath);
       if (command) {
         diagnostics = diagnostics.concat(await getDiagnostics(command));
       }

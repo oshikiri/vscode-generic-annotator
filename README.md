@@ -67,7 +67,7 @@ See scripts/day-of-week-hints.js
   "genericAnnotator.annotatorConfigurations": [
     {
       "pathRegex": "\\.ledger$",
-      "commandTemplate": "node ${workspacePath}/scripts/day-of-week-hints.js $(realpath --relative-to=. ${path})"
+      "commandTemplate": "node ${workspaceRoot}/scripts/day-of-week-hints.js $(realpath --relative-to=. ${path})"
     }
   ]
 }

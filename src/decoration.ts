@@ -42,7 +42,7 @@ export async function createDecorations(
     if (currentFilePath.match(new RegExp(config.pathRegex))) {
       const command = config.commandTemplate
         ?.replace("${path}", currentFilePath)
-        .replace("${workspacePath}", workspacePath);
+        .replace("${workspaceRoot}", workspacePath);
       if (!command) {
         continue;
       }
