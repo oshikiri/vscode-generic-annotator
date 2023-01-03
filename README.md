@@ -11,7 +11,24 @@ VS Code extension for linters
 
 
 ## Usage examples
+### [hledger-check](https://hledger.org/1.28/hledger.html#check)
+See scripts/hledger-check.js
+
+.vscode/settings.json
+```json
+{
+	"genericAnnotator.annotatorConfigurations": [
+		{
+			"commandTemplate": "node ${workspaceRoot}/scripts/hledger-check.js $(realpath --relative-to=. ${path})",
+			"pathRegex": "\\.ledger$"
+		}
+	]
+}
+```
+
 ### [ledgerlint](https://github.com/oshikiri/ledgerlint)
+(deprecated) Use hledger-check instead.
+
 .vscode/settings.json
 ```json
 {
