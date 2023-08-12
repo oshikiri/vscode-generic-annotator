@@ -14,6 +14,7 @@ for (let i = 0; i < content.length; i++) {
     continue;
   }
   const diagnostic = {
+    type: "diagnostic",
     source: "regex.js",
     severity: 1,
     message: `Matched ${regexString}`,
