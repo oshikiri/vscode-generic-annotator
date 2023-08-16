@@ -14,7 +14,7 @@ export async function execPromise(command: string): Promise<string> {
     return stdout;
   } catch (err) {
     throw new ExecError(
-      `command = ${command}\nerr = ${err}\nstderr = ${stderr}`
+      `command = ${command}\nerr = ${err}\nstderr = ${stderr}`,
     );
   }
 }

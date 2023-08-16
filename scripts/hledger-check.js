@@ -9,7 +9,7 @@ async function main() {
   const path = argv[2];
 
   const stderr = await execAndGetStderr(
-    `hledger check balancednoautoconversion -f ${path}`
+    `hledger check balancednoautoconversion -f ${path}`,
   );
 
   const diagnostics = parseDiagnostics(stderr);
