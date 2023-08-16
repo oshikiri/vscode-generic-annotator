@@ -7,7 +7,7 @@ const decorationType = vscode.window.createTextEditorDecorationType({});
 
 export async function setDecorations(
   _ctx: vscode.ExtensionContext,
-  editor: vscode.TextEditor | undefined
+  editor: vscode.TextEditor | undefined,
 ): Promise<void> {
   if (!editor) {
     return;
@@ -19,12 +19,12 @@ export async function setDecorations(
 }
 
 export async function createDecorations(
-  editor: vscode.TextEditor
+  editor: vscode.TextEditor,
 ): Promise<vscode.DecorationOptions[]> {
   const docUri = editor.document.uri;
   const settings = vscode.workspace.getConfiguration(
     "genericAnnotator",
-    docUri
+    docUri,
   );
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);

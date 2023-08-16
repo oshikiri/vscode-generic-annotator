@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Inlay hints
   vscode.workspace.onWillSaveTextDocument((event) => {
     const openEditor = vscode.window.visibleTextEditors.find(
-      (editor) => editor.document.uri === event.document.uri
+      (editor) => editor.document.uri === event.document.uri,
     );
     setDecorations(context, openEditor);
   });
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 // https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
 async function refreshDiagnostics(
   doc: vscode.TextDocument,
-  diagnosticCollection: vscode.DiagnosticCollection
+  diagnosticCollection: vscode.DiagnosticCollection,
 ): Promise<void> {
   const docUri = doc?.uri;
   const path = docUri?.path;
@@ -35,7 +35,7 @@ async function refreshDiagnostics(
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(
     "genericAnnotator",
-    docUri
+    docUri,
   );
   for (const config of settings?.annotatorConfigurations) {
     if (path.match(new RegExp(config.pathRegex))) {
@@ -52,7 +52,7 @@ async function refreshDiagnostics(
 
 function subscribeToDocumentChanges(
   context: vscode.ExtensionContext,
-  diagnostics: vscode.DiagnosticCollection
+  diagnostics: vscode.DiagnosticCollection,
 ): void {
   if (vscode.window.activeTextEditor) {
     refreshDiagnostics(vscode.window.activeTextEditor.document, diagnostics);
@@ -63,18 +63,18 @@ function subscribeToDocumentChanges(
       if (editor) {
         refreshDiagnostics(editor.document, diagnostics);
       }
-    })
+    }),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument((e) =>
-      refreshDiagnostics(e.document, diagnostics)
-    )
+      refreshDiagnostics(e.document, diagnostics),
+    ),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidCloseTextDocument((doc) =>
-      diagnostics.delete(doc.uri)
-    )
+      diagnostics.delete(doc.uri),
+    ),
   );
 }

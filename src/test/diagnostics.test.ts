@@ -31,14 +31,14 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 
 async function testDiagnostics(
   docUri: vscode.Uri,
-  expectedDiagnostics: vscode.Diagnostic[]
+  expectedDiagnostics: vscode.Diagnostic[],
 ) {
   const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
   assert.strictEqual(
     actualDiagnostics.length,
     expectedDiagnostics.length,
-    `Unexpected number of diagnostics`
+    `Unexpected number of diagnostics`,
   );
 
   expectedDiagnostics.forEach((expectedDiagnostic, i) => {
@@ -47,28 +47,28 @@ async function testDiagnostics(
     assert.strictEqual(
       actualDiagnostic.message,
       expectedDiagnostic.message,
-      "Message unmatched"
+      "Message unmatched",
     );
     assert.strictEqual(
       actualDiagnostic.range.start.line,
-      expectedDiagnostic.range.start.line
+      expectedDiagnostic.range.start.line,
     );
     assert.strictEqual(
       actualDiagnostic.range.start.character,
-      expectedDiagnostic.range.start.character
+      expectedDiagnostic.range.start.character,
     );
     assert.strictEqual(
       actualDiagnostic.range.end.line,
-      expectedDiagnostic.range.end.line
+      expectedDiagnostic.range.end.line,
     );
     assert.strictEqual(
       actualDiagnostic.range.end.character,
-      expectedDiagnostic.range.end.character
+      expectedDiagnostic.range.end.character,
     );
     assert.strictEqual(
       actualDiagnostic.severity,
       expectedDiagnostic.severity,
-      "Unexpected severity"
+      "Unexpected severity",
     );
   });
 }
