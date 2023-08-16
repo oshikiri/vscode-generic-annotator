@@ -62,7 +62,7 @@
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
     "format": "prettier --write --list-different .",
-    "format-check": "prettier --check --list-different .",
+    "format-check": "prettier --check .",
     "test": "mocha --require ts-node/register src/unittest/*.test.ts && sh ./scripts/e2e.sh"
   },
   "dependencies": {
