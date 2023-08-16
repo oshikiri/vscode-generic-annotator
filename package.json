@@ -61,8 +61,8 @@
     "package": "vsce package",
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
+    "format": "prettier --write --list-different .",
+    "format-check": "prettier --check --list-different .",
     "test": "mocha --require ts-node/register src/unittest/*.test.ts && sh ./scripts/e2e.sh"
   },
   "dependencies": {
