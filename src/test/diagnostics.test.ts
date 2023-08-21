@@ -70,9 +70,6 @@ async function testDiagnostics(
       expectedDiagnostic.severity,
       "Unexpected severity",
     );
-    assert.strictEqual(
-      actualDiagnostic.source,
-      expectedDiagnostic.source,
-    );
+    assert.strictEqual(actualDiagnostic.source, expectedDiagnostic.source);
   });
 }
