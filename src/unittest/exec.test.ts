@@ -16,11 +16,11 @@ describe("exec", () => {
       return expect(execPromise("test 0 -eq 1")).eventually.rejected;
     });
   });
-  context("when ledgerlint -h command is passed", () => {
-    it.skip("returns a fulfilled promise", () => {
-      return expect(execPromise("ledgerlint -h || test $? -eq 2"))
+  context("when node -v command is passed", () => {
+    it("returns a fulfilled promise", () => {
+      return expect(execPromise("node -v"))
         .eventually.be.a("string")
-        .and.match(/^Usage of ledgerlint/);
+        .and.match(/^v\d+\.\d+\.\d+\n$/);
     });
   });
 });
