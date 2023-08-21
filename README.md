@@ -27,38 +27,6 @@ See scripts/hledger-check.js
 }
 ```
 
-### [ledgerlint](https://github.com/oshikiri/ledgerlint)
-
-(deprecated) Use hledger-check instead.
-
-.vscode/settings.json
-
-```json
-{
-  "genericAnnotator.annotatorConfigurations": [
-    {
-      "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})",
-      "pathRegex": "\\.ledger$"
-    }
-  ]
-}
-```
-
-```console
-$ ledgerlint -f doc/example/invalid.ledger -j
-{"type":"diagnostic","source":"ledgerlint","file_path":"doc/example/invalid.ledger","line_number":5,"range":{"start":{"line":4,"character":0},"end":{"line":4,"character":80}},"level":"ERROR","severity":1,"message":"imbalanced transaction, (total amount) = -5400 JPY"}
-{"type":"diagnostic","source":"ledgerlint","file_path":"doc/example/invalid.ledger","line_number":9,"range":{"start":{"line":8,"character":0},"end":{"line":8,"character":80}},"level":"ERROR","severity":1,"message":"Transaction contains two or more empty amount"}
-```
-
-![screenshot ledgerlint 1](./doc/example_ledgerlint.png)
-
-```console
-$ ledgerlint -f doc/example/valid.ledger -j
-{"type":"decoration","source":"ledgerlint","file_path":"doc/example/valid.ledger","range":{"start":{"line":2,"character":0},"end":{"line":2,"character":80}},"renderOptions":{"after":{"contentText":"- 600 JPY","color":"grey","margin":"2ch"}}}
-```
-
-![screenshot ledgerlint 2](./doc/example_ledgerlint2.png)
-
 ### Regex
 
 See scripts/regex.js
