@@ -8,16 +8,16 @@ suite("diagnostics tests", () => {
     await activate(docUri);
     await testDiagnostics(docUri, [
       {
-        message: "imbalanced transaction, (total amount) = -1800 JPY",
-        range: toRange(0, 0, 0, 80),
+        message: "Matched 2020-03-26",
+        range: toRange(0, 0, 0, 10),
         severity: 1,
-        source: "ledgerlint",
+        source: "regex.js",
       },
       {
-        message: "imbalanced transaction, (total amount) = -18000 JPY",
-        range: toRange(4, 0, 4, 80),
+        message: "Matched 2020-03-26",
+        range: toRange(4, 0, 4, 10),
         severity: 1,
-        source: "ledgerlint",
+        source: "regex.js",
       },
     ]);
   });
@@ -69,6 +69,10 @@ async function testDiagnostics(
       actualDiagnostic.severity,
       expectedDiagnostic.severity,
       "Unexpected severity",
+    );
+    assert.strictEqual(
+      actualDiagnostic.source,
+      expectedDiagnostic.source,
     );
   });
 }

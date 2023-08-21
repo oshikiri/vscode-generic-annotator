@@ -47,7 +47,7 @@
           "default": [
             {
               "pathRegex": "\\.ledger$",
-              "commandTemplate": "ledgerlint -j -f $(realpath --relative-to=. ${path})"
+              "commandTemplate": "node ${workspaceRoot}/scripts/regex.js ${path} '2020-03-26'"
             }
           ]
         }
