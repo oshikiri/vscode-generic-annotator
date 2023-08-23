@@ -1,11 +1,5 @@
 # vscode-generic-annotator
 
-TODO
-
-- Refactor extensions.ts
-
----
-
 VS Code extension for linters
 
 ## Usage examples
