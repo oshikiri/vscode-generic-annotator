@@ -71,7 +71,7 @@ See scripts/day-of-week-hints.js
 
 ## License
 
-MIT
+See the LICENSE file.
 
 - This repository is based on
   - [lsp-sample](https://github.com/microsoft/vscode-extension-samples/tree/6f16dafc01a248ac39d450ecf56ae73274757644/lsp-sample)
