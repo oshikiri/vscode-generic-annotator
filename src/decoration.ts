@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 
 import { execPromise } from "./exec";
 import { outputChannel } from "./vscode_helper";
+import { createCommand } from "./annotator_adapter";
 
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
@@ -36,27 +37,35 @@ export async function createDecorations(
     return [];
   }
 
-  const decorations: vscode.DecorationOptions[] = [];
+  let decorations: vscode.DecorationOptions[] = [];
 
   for (const config of settings?.annotatorConfigurations) {
-    if (currentFilePath.match(new RegExp(config.pathRegex))) {
-      const command = config.commandTemplate
-        ?.replace("${path}", currentFilePath)
-        .replace("${workspaceRoot}", workspacePath);
-      if (!command) {
-        continue;
-      }
+    const isTarget = currentFilePath.match(new RegExp(config.pathRegex));
+    if (isTarget && !!config.commandTemplate) {
+      const command = createCommand(
+        config.commandTemplate,
+        currentFilePath,
+        workspacePath,
+      );
+      decorations = decorations.concat(
+        parseCommandResult(await execPromise(command)),
+      );
+    }
+  }
 
-      const commandResult = await execPromise(command);
-      for (const line of commandResult.split("\n")) {
-        if (line.length === 0) {
-          continue;
-        }
-        const obj = JSON.parse(line);
-        if (obj["type"] === "decoration") {
-          decorations.push(obj as vscode.DecorationOptions);
-        }
-      }
+  return decorations;
+}
+
+function parseCommandResult(commandResult: string): vscode.DecorationOptions[] {
+  const decorations: vscode.DecorationOptions[] = [];
+
+  for (const line of commandResult.split("\n")) {
+    if (line.length === 0) {
+      continue;
+    }
+    const obj = JSON.parse(line);
+    if (obj["type"] === "decoration") {
+      decorations.push(obj as vscode.DecorationOptions);
     }
   }
 

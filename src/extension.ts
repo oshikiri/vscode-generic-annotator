@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getDiagnostics } from "./diagnostics";
 import { setDecorations } from "./decoration";
+import { createCommand } from "./annotator_adapter";
 
 export function activate(context: vscode.ExtensionContext) {
   // Diagnostics
@@ -16,38 +17,6 @@ export function activate(context: vscode.ExtensionContext) {
     );
     setDecorations(context, openEditor);
   });
-}
-
-// https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
-async function refreshDiagnostics(
-  doc: vscode.TextDocument,
-  diagnosticCollection: vscode.DiagnosticCollection,
-): Promise<void> {
-  const docUri = doc?.uri;
-  const path = docUri?.path;
-  if (path === undefined) {
-    return;
-  }
-
-  const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder?.uri?.path || ".";
-
-  let diagnostics: vscode.Diagnostic[] = [];
-  const settings = vscode.workspace.getConfiguration(
-    "genericAnnotator",
-    docUri,
-  );
-  for (const config of settings?.annotatorConfigurations) {
-    if (path.match(new RegExp(config.pathRegex))) {
-      const command = config.commandTemplate
-        ?.replace("${path}", path)
-        .replace("${workspaceRoot}", workspacePath);
-      if (command) {
-        diagnostics = diagnostics.concat(await getDiagnostics(command));
-      }
-    }
-  }
-  diagnosticCollection.set(docUri, diagnostics);
 }
 
 function subscribeToDocumentChanges(
@@ -77,4 +46,37 @@ function subscribeToDocumentChanges(
       diagnostics.delete(doc.uri),
     ),
   );
+}
+
+// https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
+async function refreshDiagnostics(
+  doc: vscode.TextDocument,
+  diagnosticCollection: vscode.DiagnosticCollection,
+): Promise<void> {
+  const docUri = doc?.uri;
+  const docPath = docUri?.path;
+  if (docPath === undefined) {
+    return;
+  }
+
+  const folder = vscode.workspace.getWorkspaceFolder(docUri);
+  const workspacePath = folder?.uri?.path || ".";
+
+  let diagnostics: vscode.Diagnostic[] = [];
+  const settings = vscode.workspace.getConfiguration(
+    "genericAnnotator",
+    docUri,
+  );
+  for (const config of settings?.annotatorConfigurations) {
+    const isTargetDoc = docPath.match(new RegExp(config.pathRegex));
+    if (isTargetDoc && !!config.commandTemplate) {
+      const command = createCommand(
+        config.commandTemplate,
+        docPath,
+        workspacePath,
+      );
+      diagnostics = diagnostics.concat(await getDiagnostics(command));
+    }
+  }
+  diagnosticCollection.set(docUri, diagnostics);
 }
