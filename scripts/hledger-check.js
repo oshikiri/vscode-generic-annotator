@@ -49,7 +49,7 @@ function parseDiagnostics(stderr) {
 }
 
 function parseHeader(line) {
-  const m = line.match(/lines (\d+)-(\d+)/);
+  const m = line.match(/:(\d+)-(\d+)/);
   return {
     type: "diagnostic",
     source: "hledger-check",

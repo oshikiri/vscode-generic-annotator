@@ -4,22 +4,48 @@ VS Code extension for linters
 
 ## Usage examples
 
-### [hledger-check](https://hledger.org/1.28/hledger.html#check)
+### hledger-check
 
-See scripts/hledger-check.js
+See <https://hledger.org/1.30/hledger.html#check>
 
-.vscode/settings.json
+Here is the output of `hledger check`:
+
+```
+$ hledger check balancednoautoconversion -f testFixture/imbalance.ledger
+hledger: Error: /path/to/vscode-generic-annotator/testFixture/imbalance.ledger:1-3:
+1 | 2020-03-26 * toilet paper
+  |     Expences:Household essentials         200 JPY
+  |     Assets:Cash                         -2000 JPY
+
+This transaction is unbalanced.
+The real postings' sum should be 0 but is: -1800 JPY
+Consider adjusting this entry's amounts, or adding missing postings.
+```
+
+Wrap this output using some script (ex. hledger-check.js):
+
+```
+$ node scripts/hledger-check.js testFixture/imbalance.ledger
+{"type":"diagnostic","source":"hledger-check","severity":1,"message":"hledger: Error: /path/to/vscode-generic-annotator/testFixture/imbalance.ledger:1-3:\n1 | 2020-03-26 * toilet paper\n  |     Expences:Household essentials         200 JPY\n  |     Assets:Cash                         -2000 JPY\nThis transaction is unbalanced.\nThe real postings' sum should be 0 but is: -1800 JPY\nConsider adjusting this entry's amounts, or adding missing postings.","range":{"start":{"line":0,"character":0},"end":{"line":2,"character":80}}}
+```
+
+Then, configure vscode-generic-annotator by .vscode/settings.json:
 
 ```json
 {
   "genericAnnotator.annotatorConfigurations": [
     {
-      "commandTemplate": "node ${workspaceRoot}/scripts/hledger-check.js $(realpath --relative-to=. ${path})",
+      "commandTemplate": "node ${workspaceRoot}/scripts/hledger-check.js ${path}",
       "pathRegex": "\\.ledger$"
     }
   ]
 }
 ```
+
+Finally you will get the annotations:
+
+![screenshot hledger-check](./doc/example_hledgercheck.png)
+
 
 ### Regex
 
