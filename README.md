@@ -46,7 +46,6 @@ Finally you will get the annotations:
 
 ![screenshot hledger-check](./doc/example_hledgercheck.png)
 
-
 ### Regex
 
 See scripts/regex.js
