@@ -1,26 +1,22 @@
-import * as chai from "chai";
-import * as chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const expect = chai.expect;
-
-const { execPromise } = require("./../exec");
+import { execPromise } from "./../exec";
+import { expect, describe, test } from "@jest/globals";
 
 describe("exec", () => {
-  context("when an echo command is passed", () => {
-    it("returns a fulfilled promise", async () => {
-      return expect(execPromise("echo Hi")).eventually.equal("Hi\n");
+  describe("when an echo command is passed", () => {
+    test("returns a fulfilled promise", async () => {
+      expect(execPromise("echo Hi")).resolves.toEqual("Hi\n");
     });
   });
-  context("when a failing command is passed", () => {
-    it("returns rejected promise", async () => {
-      return expect(execPromise("test 0 -eq 1")).eventually.rejected;
+  describe("when a failing command is passed", () => {
+    test("returns rejected promise", async () => {
+      return expect(execPromise("test 0 -eq 1")).rejects.toThrow();
     });
   });
-  context("when node -v command is passed", () => {
-    it("returns a fulfilled promise", () => {
-      return expect(execPromise("node -v"))
-        .eventually.be.a("string")
-        .and.match(/^v\d+\.\d+\.\d+\n$/);
+  describe("when `node -v` command is passed", () => {
+    test("returns a fulfilled promise", async () => {
+      return expect(execPromise("node -v")).resolves.toMatch(
+        /^v\d+\.\d+\.\d+\n$/,
+      );
     });
   });
 });
