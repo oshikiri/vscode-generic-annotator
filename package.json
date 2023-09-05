@@ -73,7 +73,7 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.5.9",
     "@types/vscode": "1.81.0",
-    "@typescript-eslint/parser": "^6.4.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "@vscode/test-electron": "^2.3.4",
     "@vscode/vsce": "^2.15.0",
     "eslint": "^8.48.0",
