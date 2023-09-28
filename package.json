@@ -5,7 +5,7 @@
   "icon": "icon.png",
   "author": "Takamasa Oshikiri",
   "license": "MIT",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/oshikiri/vscode-generic-annotator"
