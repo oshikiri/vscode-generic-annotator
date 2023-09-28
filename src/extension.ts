@@ -54,13 +54,13 @@ async function refreshDiagnostics(
   diagnosticCollection: vscode.DiagnosticCollection,
 ): Promise<void> {
   const docUri = doc?.uri;
-  const docPath = docUri?.path;
+  const docPath = docUri?.fsPath;
   if (docPath === undefined) {
     return;
   }
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder?.uri?.path || ".";
+  const workspacePath = folder?.uri?.fsPath || ".";
 
   let diagnostics: vscode.Diagnostic[] = [];
   const settings = vscode.workspace.getConfiguration(

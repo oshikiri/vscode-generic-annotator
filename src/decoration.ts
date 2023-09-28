@@ -29,9 +29,9 @@ export async function createDecorations(
   );
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
-  const workspacePath = folder?.uri?.path;
+  const workspacePath = folder?.uri?.fsPath;
 
-  const currentFilePath = docUri.path;
+  const currentFilePath = docUri.fsPath;
   if (currentFilePath === undefined || workspacePath === undefined) {
     outputChannel.appendLine("path is undefined");
     return [];
