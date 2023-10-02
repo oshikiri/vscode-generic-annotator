@@ -71,7 +71,7 @@
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^20.6",
+    "@types/node": "^20.8",
     "@types/vscode": "^1.82.0",
     "@typescript-eslint/parser": "^6.7.2",
     "@vscode/test-electron": "^2.3.4",
