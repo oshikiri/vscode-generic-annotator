@@ -66,7 +66,7 @@
     "test": "jest && sh ./scripts/e2e.sh"
   },
   "dependencies": {
-    "vscode-languageclient": "^9.0.0"
+    "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
