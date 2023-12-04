@@ -72,7 +72,7 @@
     "@jest/globals": "^29.7.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20",
-    "@types/vscode": "^1.82.0",
+    "@types/vscode": "^1.84.2",
     "@typescript-eslint/parser": "^6.13",
     "@vscode/test-electron": "^2.3.6",
     "@vscode/vsce": "^2.22.0",
