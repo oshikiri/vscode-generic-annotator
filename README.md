@@ -1,6 +1,16 @@
 # vscode-generic-annotator
 
-VS Code extension for linters
+VS Code extension that wraps any linters
+
+If you are familiar with GitHub Actions, you can understand it as [Problem Matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) for VS Code.
+
+Steps:
+1. Get any linter
+2. Create a wrapper script that converts the linter's output to JSON
+3. Setup `.vscode/settings.json`
+
+See `Usage examples` for detail.
+
 
 ## Usage examples
 
