@@ -2,7 +2,6 @@
 
 VS Code extension that wraps any linters
 
-
 Steps:
 
 1. Get any linter
@@ -10,7 +9,6 @@ Steps:
 3. Setup `.vscode/settings.json`
 
 See `Usage examples` for detail.
-
 
 ## Project status
 
@@ -21,7 +19,6 @@ VS Code already has a multiline problem matcher feature:
 So if the below issue had been resolved, I would migrate all the features of this extension to the problem matcher
 
 - [Problem matchers for error messages that span multiple lines · Issue #9635 · microsoft/vscode](https://github.com/microsoft/vscode/issues/9635)
-
 
 ## Usage examples
 
