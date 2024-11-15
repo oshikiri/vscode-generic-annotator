@@ -2,7 +2,6 @@
 
 VS Code extension that wraps any linters
 
-If you are familiar with GitHub Actions, you can understand it as [Problem Matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) for VS Code.
 
 Steps:
 
@@ -11,6 +10,18 @@ Steps:
 3. Setup `.vscode/settings.json`
 
 See `Usage examples` for detail.
+
+
+## Project status
+
+VS Code already has a multiline problem matcher feature:
+
+- [Integrate with External Tools via Tasks > Defining a multiline problem matcher](https://code.visualstudio.com/docs/editor/tasks#_defining-a-multiline-problem-matcher)
+
+So if the below issue had been resolved, I would migrate all the features of this extension to the problem matcher
+
+- [Problem matchers for error messages that span multiple lines · Issue #9635 · microsoft/vscode](https://github.com/microsoft/vscode/issues/9635)
+
 
 ## Usage examples
 
