@@ -18,7 +18,7 @@
     "multi-root ready"
   ],
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.95.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -72,7 +72,7 @@
     "@jest/globals": "^29.7.0",
     "@types/mocha": "^10.0.7",
     "@types/node": "^20",
-    "@types/vscode": "^1.85.0",
+    "@types/vscode": "^1.95.0",
     "@typescript-eslint/parser": "^8.12",
     "@vscode/test-electron": "^2.4.0",
     "@vscode/vsce": "^2.26.0",
