@@ -97,7 +97,7 @@
       ]
     },
     "testMatch": [
-      "**/exec.test.ts"
+      "**/unittest/**/*.test.ts"
     ]
   }
 }
