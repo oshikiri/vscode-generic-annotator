@@ -5,7 +5,9 @@ const execPromise = util.promisify(require("child_process").exec);
 main();
 
 async function main() {
-  if (argv.length != 3) return;
+  if (argv.length !== 3) {
+    return;
+  }
   const path = argv[2];
 
   const stderr = await execAndGetStderr(
@@ -28,7 +30,7 @@ async function execAndGetStderr(command) {
 }
 
 function parseDiagnostics(stderr) {
-  let diagnostics = [];
+  const diagnostics = [];
   let currentDiagnostic = {};
   for (const line of stderr.split("\n")) {
     const isHeader = line.startsWith("hledger: ");
@@ -38,7 +40,7 @@ function parseDiagnostics(stderr) {
       }
       currentDiagnostic = parseHeader(line);
     } else {
-      if (line != "") {
+      if (line !== "") {
         currentDiagnostic.message += "\n" + line;
       }
     }

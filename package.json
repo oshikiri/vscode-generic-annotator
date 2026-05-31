@@ -59,7 +59,7 @@
     "verify": "npm run format-check && npm run lint && npm run typecheck && npm run compile && jest",
     "compile": "tsc -b",
     "package": "vsce package",
-    "lint": "eslint **/*.ts",
+    "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.js\"",
     "watch": "tsc -b -w",
     "typecheck": "tsc -b --noEmit",
     "format": "prettier --write --list-different .",

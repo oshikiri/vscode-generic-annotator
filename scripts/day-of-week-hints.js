@@ -3,7 +3,9 @@ const { argv } = require("process");
 
 const DAY_OF_WEEKS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-if (argv.length != 3) return;
+if (argv.length !== 3) {
+  return;
+}
 const path = argv[2];
 
 const content = readFileSync(path, "utf-8").split("\n");

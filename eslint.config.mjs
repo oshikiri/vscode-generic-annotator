@@ -15,7 +15,7 @@ export default [
       ecmaVersion: 6,
       sourceType: "module",
     },
-    files: ["**/*.ts"],
+    files: ["**/*.{js,ts}"],
     rules: {
       "prefer-const": "error",
       semi: "error",

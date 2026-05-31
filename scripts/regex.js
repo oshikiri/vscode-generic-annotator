@@ -1,7 +1,9 @@
 const { readFileSync } = require("fs");
 const { argv } = require("process");
 
-if (argv.length != 4) return;
+if (argv.length !== 4) {
+  return;
+}
 const path = argv[2];
 const regexString = argv[3];
 
