@@ -56,11 +56,12 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "precompile": "npm run format-check && npm run lint",
+    "verify": "npm run format-check && npm run lint && npm run typecheck && npm run compile && jest",
     "compile": "tsc -b",
     "package": "vsce package",
     "lint": "eslint **/*.ts",
     "watch": "tsc -b -w",
+    "typecheck": "tsc -b --noEmit",
     "format": "prettier --write --list-different .",
     "format-check": "prettier --check .",
     "test": "jest && sh ./scripts/e2e.sh"
