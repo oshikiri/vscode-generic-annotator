@@ -18,7 +18,7 @@ jobs:
 
       - name: Build
         run: |
-          npm install
+          npm install --frozen-lockfile
           npm run package
       - uses: ncipollo/release-action@v1.14.0
         with:

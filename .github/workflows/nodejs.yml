@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 20.x
       - name: Setup
-        run: npm install
+        run: npm install --frozen-lockfile
       - name: Compile
         run: npm run compile
       - name: Package
