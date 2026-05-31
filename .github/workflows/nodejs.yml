@@ -15,17 +15,15 @@ jobs:
         with:
           node-version: 20.x
       - name: Setup
-        run: npm install --frozen-lockfile
-      - name: Compile
-        run: npm run compile
-      - name: Package
-        run: npm run package
+        run: npm ci
       - name: Start xvfb
         run: |
           # cf. https://github.com/microsoft/vscode-test/issues/47#issuecomment-546952277
           /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-      - name: Run tests
+      - name: Verify
         env:
           CODE_VERSION: ""
           DISPLAY: ":99.0"
-        run: npm test
+        run: npm run verify
+      - name: Package
+        run: npm run package
