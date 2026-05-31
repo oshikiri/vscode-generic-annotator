@@ -23,7 +23,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./out/extension",
+  "main": "./out/extension.js",
   "contributes": {
     "configuration": {
       "type": "object",
@@ -44,12 +44,7 @@
               }
             }
           },
-          "default": [
-            {
-              "pathRegex": "\\.ledger$",
-              "commandTemplate": "node ${workspaceRoot}/scripts/regex.js ${path} '2020-03-26'"
-            }
-          ]
+          "default": []
         }
       }
     }
@@ -58,7 +53,7 @@
     "vscode:prepublish": "npm run compile",
     "verify": "npm run format-check && npm run lint && npm run typecheck && npm run compile && jest",
     "compile": "tsc -b",
-    "package": "vsce package",
+    "package": "vsce package --no-dependencies",
     "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.js\"",
     "watch": "tsc -b -w",
     "typecheck": "tsc -b --noEmit",

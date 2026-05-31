@@ -2,6 +2,7 @@
 **/*.ts
 **/*.map
 .gitignore
+tsconfig.tsbuildinfo
 **/tsconfig.json
 **/tsconfig.base.json
 contributing.md
@@ -16,3 +17,16 @@ node_modules/**
 !node_modules/vscode-languageserver-protocol/**
 !node_modules/vscode-languageserver-types/**
 !node_modules/semver/**
+
+# artifacts
+out/**/*.map
+out/test/**
+out/unittest/**
+*.vsix
+
+.agent-logs/**
+
+# config
+.npmignore
+.prettierignore
+eslint.config.mjs
