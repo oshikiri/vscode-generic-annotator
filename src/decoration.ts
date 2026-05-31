@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { execPromise } from "./exec";
 import { outputChannel } from "./vscode_helper";
 import { createCommand } from "./annotator_adapter";
+import { parseDecorationOutput } from "./annotator_output";
 
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
@@ -56,18 +57,19 @@ export async function createDecorations(
   return decorations;
 }
 
-function parseCommandResult(commandResult: string): vscode.DecorationOptions[] {
-  const decorations: vscode.DecorationOptions[] = [];
-
-  for (const line of commandResult.split("\n")) {
-    if (line.length === 0) {
-      continue;
-    }
-    const obj = JSON.parse(line);
-    if (obj["type"] === "decoration") {
-      decorations.push(obj as vscode.DecorationOptions);
-    }
+export function parseCommandResult(
+  commandResult: string,
+): vscode.DecorationOptions[] {
+  const result = parseDecorationOutput(commandResult);
+  if (result.errors.length > 0) {
+    outputChannel.appendLine(
+      result.errors
+        .map(
+          (err) => `line ${err.line}: ${err.message}\ncontent: ${err.content}`,
+        )
+        .join("\n"),
+    );
   }
 
-  return decorations;
+  return result.items;
 }
