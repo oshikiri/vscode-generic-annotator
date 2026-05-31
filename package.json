@@ -51,7 +51,7 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "verify": "npm run format-check && npm run lint && npm run typecheck && npm run compile && jest",
+    "verify": "npm run format-check && npm run lint && npm run typecheck && npm run test",
     "compile": "tsc -b",
     "package": "vsce package --no-dependencies",
     "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.js\"",
@@ -59,7 +59,7 @@
     "typecheck": "tsc -b --noEmit",
     "format": "prettier --write --list-different .",
     "format-check": "prettier --check .",
-    "test": "jest && sh ./scripts/e2e.sh"
+    "test": "jest && npm run compile && sh ./scripts/e2e.sh"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
