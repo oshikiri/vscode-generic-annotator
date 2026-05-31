@@ -5,32 +5,44 @@ import { getDocUri, activate } from "./helper";
 suite("diagnostics tests", () => {
   test("imbalance.ledger", async () => {
     const docUri = getDocUri("imbalance.ledger");
-    await vscode.workspace.getConfiguration("genericAnnotator", docUri).update(
-      "annotatorConfigurations",
-      [
-        {
-          pathRegex: "\\.ledger$",
-          commandTemplate:
-            "node ${workspaceRoot}/../scripts/regex.js ${path} '2020-03-26'",
-        },
-      ],
-      vscode.ConfigurationTarget.Workspace,
+    const config = vscode.workspace.getConfiguration(
+      "genericAnnotator",
+      docUri,
     );
-    await activate(docUri);
-    await testDiagnostics(docUri, [
-      {
-        message: "Matched 2020-03-26",
-        range: toRange(0, 0, 0, 10),
-        severity: 1,
-        source: "regex.js",
-      },
-      {
-        message: "Matched 2020-03-26",
-        range: toRange(4, 0, 4, 10),
-        severity: 1,
-        source: "regex.js",
-      },
-    ]);
+    try {
+      await config.update(
+        "annotatorConfigurations",
+        [
+          {
+            pathRegex: "\\.ledger$",
+            commandTemplate:
+              "node ${workspaceRoot}/../scripts/regex.js ${path} '2020-03-26'",
+          },
+        ],
+        vscode.ConfigurationTarget.Workspace,
+      );
+      await activate(docUri);
+      await testDiagnostics(docUri, [
+        {
+          message: "Matched 2020-03-26",
+          range: toRange(0, 0, 0, 10),
+          severity: 1,
+          source: "regex.js",
+        },
+        {
+          message: "Matched 2020-03-26",
+          range: toRange(4, 0, 4, 10),
+          severity: 1,
+          source: "regex.js",
+        },
+      ]);
+    } finally {
+      await config.update(
+        "annotatorConfigurations",
+        undefined,
+        vscode.ConfigurationTarget.Workspace,
+      );
+    }
   });
 });
 

@@ -59,7 +59,9 @@
     "typecheck": "tsc -b --noEmit",
     "format": "prettier --write --list-different .",
     "format-check": "prettier --check .",
-    "test": "jest && npm run compile && sh ./scripts/e2e.sh"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "test:e2e": "npm run compile && sh ./scripts/e2e.sh"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
