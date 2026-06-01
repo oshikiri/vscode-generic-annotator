@@ -1,16 +1,23 @@
 import * as vscode from "vscode";
 import { getDiagnostics } from "./diagnostics";
-import { setDecorations } from "./decoration";
+import { applyDecorations, createDecorations } from "./decoration";
 import { createCommand } from "./annotator_adapter";
 import { getMatchingAnnotatorConfigurations } from "./configuration";
 
+const TEXT_CHANGE_DEBOUNCE_MS = 300;
+
+type RefreshState = {
+  timer: NodeJS.Timeout | undefined;
+  generation: number;
+};
+
+const refreshStates = new Map<string, RefreshState>();
+
 export function activate(context: vscode.ExtensionContext) {
-  // Diagnostics
   const diagnostics =
     vscode.languages.createDiagnosticCollection("Generic Annotator");
   context.subscriptions.push(diagnostics);
   subscribeToDocumentChanges(context, diagnostics);
-  subscribeToDecorationChanges(context);
 }
 
 function subscribeToDocumentChanges(
@@ -18,89 +25,128 @@ function subscribeToDocumentChanges(
   diagnostics: vscode.DiagnosticCollection,
 ): void {
   if (vscode.window.activeTextEditor) {
-    refreshDiagnostics(vscode.window.activeTextEditor.document, diagnostics);
+    scheduleDocumentRefresh(
+      vscode.window.activeTextEditor.document,
+      diagnostics,
+      0,
+    );
   }
 
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor) {
-        refreshDiagnostics(editor.document, diagnostics);
+        scheduleDocumentRefresh(editor.document, diagnostics, 0);
       }
     }),
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument((e) =>
-      refreshDiagnostics(e.document, diagnostics),
+      scheduleDocumentRefresh(e.document, diagnostics, TEXT_CHANGE_DEBOUNCE_MS),
     ),
   );
 
   context.subscriptions.push(
-    vscode.workspace.onDidCloseTextDocument((doc) =>
-      diagnostics.delete(doc.uri),
-    ),
-  );
-}
-
-function subscribeToDecorationChanges(context: vscode.ExtensionContext): void {
-  // Runs once when the extension starts.
-  refreshDecorations(context, vscode.window.activeTextEditor);
-
-  context.subscriptions.push(
-    // Fires when the active editor changes.
-    vscode.window.onDidChangeActiveTextEditor((editor) => {
-      refreshDecorations(context, editor);
-    }),
-  );
-
-  context.subscriptions.push(
-    // Fires when VS Code opens a text document.
     vscode.workspace.onDidOpenTextDocument((doc) => {
-      const openEditor = vscode.window.visibleTextEditors.find(
-        (editor) => editor.document.uri === doc.uri,
-      );
-      refreshDecorations(context, openEditor);
+      scheduleDocumentRefresh(doc, diagnostics, 0);
     }),
   );
 
   context.subscriptions.push(
-    // Fires after settings change.
     vscode.workspace.onDidChangeConfiguration((event) => {
       if (event.affectsConfiguration("genericAnnotator")) {
         for (const editor of vscode.window.visibleTextEditors) {
-          refreshDecorations(context, editor);
+          scheduleDocumentRefresh(editor.document, diagnostics, 0);
         }
       }
     }),
   );
 
   context.subscriptions.push(
-    // Fires before VS Code saves a text document.
     vscode.workspace.onWillSaveTextDocument((event) => {
-      const openEditor = vscode.window.visibleTextEditors.find(
-        (editor) => editor.document.uri === event.document.uri,
-      );
-      refreshDecorations(context, openEditor);
+      scheduleDocumentRefresh(event.document, diagnostics, 0);
+    }),
+  );
+
+  context.subscriptions.push(
+    vscode.workspace.onDidCloseTextDocument((doc) => {
+      const key = doc.uri.toString();
+      const state = refreshStates.get(key);
+      if (state?.timer) {
+        clearTimeout(state.timer);
+      }
+      refreshStates.delete(key);
+      diagnostics.delete(doc.uri);
     }),
   );
 }
 
-function refreshDecorations(
-  context: vscode.ExtensionContext,
-  editor: vscode.TextEditor | undefined,
+function scheduleDocumentRefresh(
+  doc: vscode.TextDocument,
+  diagnostics: vscode.DiagnosticCollection,
+  delayMs: number,
 ): void {
-  void setDecorations(context, editor);
+  const key = doc.uri.toString();
+  const state = refreshStates.get(key) ?? {
+    timer: undefined,
+    generation: 0,
+  };
+
+  if (state.timer) {
+    clearTimeout(state.timer);
+  }
+
+  state.generation += 1;
+  const generation = state.generation;
+  state.timer = setTimeout(() => {
+    state.timer = undefined;
+    void refreshDocument(doc, diagnostics, generation);
+  }, delayMs);
+
+  refreshStates.set(key, state);
+}
+
+async function refreshDocument(
+  doc: vscode.TextDocument,
+  diagnosticCollection: vscode.DiagnosticCollection,
+  generation: number,
+): Promise<void> {
+  const diagnostics = await createDiagnostics(doc);
+  if (!isLatestRefresh(doc.uri, generation)) {
+    return;
+  }
+  diagnosticCollection.set(doc.uri, diagnostics);
+
+  const editor = getVisibleEditor(doc.uri);
+  if (!editor) {
+    return;
+  }
+
+  const decorations = await createDecorations(editor);
+  if (!isLatestRefresh(doc.uri, generation)) {
+    return;
+  }
+  applyDecorations(editor, decorations);
+}
+
+function isLatestRefresh(uri: vscode.Uri, generation: number): boolean {
+  return refreshStates.get(uri.toString())?.generation === generation;
+}
+
+function getVisibleEditor(uri: vscode.Uri): vscode.TextEditor | undefined {
+  return vscode.window.visibleTextEditors.find(
+    (editor) => editor.document.uri.toString() === uri.toString(),
+  );
 }
 
 // https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
-async function refreshDiagnostics(
+async function createDiagnostics(
   doc: vscode.TextDocument,
-  diagnosticCollection: vscode.DiagnosticCollection,
-): Promise<void> {
+): Promise<vscode.Diagnostic[]> {
   const docUri = doc?.uri;
   const docPath = docUri?.fsPath;
   if (docPath === undefined) {
-    return;
+    return [];
   }
 
   const folder = vscode.workspace.getWorkspaceFolder(docUri);
@@ -124,5 +170,5 @@ async function refreshDiagnostics(
       await getDiagnostics(command, docPath, workspacePath),
     );
   }
-  diagnosticCollection.set(docUri, diagnostics);
+  return diagnostics;
 }
