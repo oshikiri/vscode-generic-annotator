@@ -4,6 +4,7 @@ import { execPromise } from "./exec";
 import { outputChannel } from "./vscode_helper";
 import { createCommand } from "./annotator_adapter";
 import { parseDecorationOutput } from "./annotator_output";
+import { getMatchingAnnotatorConfigurations } from "./configuration";
 
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
@@ -45,18 +46,18 @@ export async function createDecorations(
 
   let decorations: vscode.DecorationOptions[] = [];
 
-  for (const config of settings?.annotatorConfigurations) {
-    const isTarget = currentFilePath.match(new RegExp(config.pathRegex));
-    if (isTarget && !!config.commandTemplate) {
-      const command = createCommand(
-        config.commandTemplate,
-        currentFilePath,
-        workspacePath,
-      );
-      decorations = decorations.concat(
-        parseCommandResult(await execPromise(command)),
-      );
-    }
+  for (const config of getMatchingAnnotatorConfigurations(
+    settings?.annotatorConfigurations,
+    currentFilePath,
+  )) {
+    const command = createCommand(
+      config.commandTemplate,
+      currentFilePath,
+      workspacePath,
+    );
+    decorations = decorations.concat(
+      parseCommandResult(await execPromise(command)),
+    );
   }
 
   return decorations;

@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { getDiagnostics } from "./diagnostics";
 import { setDecorations } from "./decoration";
 import { createCommand } from "./annotator_adapter";
+import { getMatchingAnnotatorConfigurations } from "./configuration";
 
 export function activate(context: vscode.ExtensionContext) {
   // Diagnostics
@@ -110,16 +111,16 @@ async function refreshDiagnostics(
     "genericAnnotator",
     docUri,
   );
-  for (const config of settings?.annotatorConfigurations) {
-    const isTargetDoc = docPath.match(new RegExp(config.pathRegex));
-    if (isTargetDoc && !!config.commandTemplate) {
-      const command = createCommand(
-        config.commandTemplate,
-        docPath,
-        workspacePath,
-      );
-      diagnostics = diagnostics.concat(await getDiagnostics(command));
-    }
+  for (const config of getMatchingAnnotatorConfigurations(
+    settings?.annotatorConfigurations,
+    docPath,
+  )) {
+    const command = createCommand(
+      config.commandTemplate,
+      docPath,
+      workspacePath,
+    );
+    diagnostics = diagnostics.concat(await getDiagnostics(command));
   }
   diagnosticCollection.set(docUri, diagnostics);
 }

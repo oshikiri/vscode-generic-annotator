@@ -33,17 +33,30 @@
           "type": "array",
           "items": {
             "type": "object",
+            "required": [
+              "pathRegex",
+              "commandTemplate"
+            ],
+            "additionalProperties": false,
             "properties": {
               "pathRegex": {
                 "type": "string",
-                "description": ""
+                "description": "JavaScript regular expression matched against the absolute path of the file to annotate."
               },
               "commandTemplate": {
                 "type": "string",
-                "description": "command template (${path} will be replace by absolute path of focus file)"
+                "description": "Shell command template to run for matching files. ${path} is the quoted absolute file path, and ${workspaceRoot} is the quoted workspace folder path."
               }
             }
           },
+          "examples": [
+            [
+              {
+                "pathRegex": "\\.ledger$",
+                "commandTemplate": "node ${workspaceRoot}/scripts/regex.js ${path} 'TODO'"
+              }
+            ]
+          ],
           "default": []
         }
       }
