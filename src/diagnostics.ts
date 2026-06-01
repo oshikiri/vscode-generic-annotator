@@ -1,12 +1,21 @@
-import { ExecError, execPromise } from "./exec";
+import { ExecError } from "./exec";
 import { Diagnostic } from "vscode";
 import { outputChannel } from "./vscode_helper";
 import { parseDiagnosticOutput } from "./annotator_output";
+import { runAnnotatorCommand } from "./annotator_command";
 
-export async function getDiagnostics(command: string): Promise<Diagnostic[]> {
+export async function getDiagnostics(
+  command: string,
+  filePath: string,
+  workspacePath: string,
+): Promise<Diagnostic[]> {
   const diagnostics: Diagnostic[] = [];
   try {
-    const stdout = await execPromise(command);
+    const stdout = await runAnnotatorCommand({
+      command,
+      filePath,
+      workspacePath,
+    });
     const result = parseDiagnosticOutput(stdout);
     diagnostics.push(...result.items);
     if (result.errors.length > 0) {
@@ -33,22 +42,13 @@ function formatOutputErrors(
 
 function formatErrorMessage(err: unknown): string {
   if (err instanceof ExecError) {
-    const details = [
-      `command: ${err.command}`,
+    return [
+      `command failed: ${err.command}`,
       `message: ${err.message}`,
       `exitCode: ${err.exitCode ?? "none"}`,
       `signal: ${err.signal ?? "none"}`,
-    ];
-
-    if (err.stderr) {
-      details.push(`stderr: ${err.stderr}`);
-    }
-
-    if (err.stdout) {
-      details.push(`stdout: ${err.stdout}`);
-    }
-
-    return details.join("\n");
+      "See the Generic Annotator output channel for stdout and stderr.",
+    ].join("\n");
   }
 
   if (err instanceof Error) {

@@ -108,6 +108,10 @@ Add the following to your `.vscode/settings.json`:
 
 ![screenshot day of week hints](./doc/example_dow.png)
 
+## Troubleshooting
+
+Open the `Generic Annotator` output channel when annotations are missing or a runtime error appears. Diagnostics show a short error summary in the editor. The output channel includes the command, target file, workspace root, elapsed time, and captured stdout or stderr.
+
 ## License
 
 See the LICENSE file.

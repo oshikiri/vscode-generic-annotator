@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 
-import { execPromise } from "./exec";
 import { outputChannel } from "./vscode_helper";
 import { createCommand } from "./annotator_adapter";
 import { parseDecorationOutput } from "./annotator_output";
 import { getMatchingAnnotatorConfigurations } from "./configuration";
+import { runAnnotatorCommand } from "./annotator_command";
 
 const decorationType = vscode.window.createTextEditorDecorationType({});
 
@@ -56,7 +56,13 @@ export async function createDecorations(
       workspacePath,
     );
     decorations = decorations.concat(
-      parseCommandResult(await execPromise(command)),
+      parseCommandResult(
+        await runAnnotatorCommand({
+          command,
+          filePath: currentFilePath,
+          workspacePath,
+        }),
+      ),
     );
   }
 

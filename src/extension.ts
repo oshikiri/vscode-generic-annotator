@@ -7,7 +7,7 @@ import { getMatchingAnnotatorConfigurations } from "./configuration";
 export function activate(context: vscode.ExtensionContext) {
   // Diagnostics
   const diagnostics =
-    vscode.languages.createDiagnosticCollection("diagnostics");
+    vscode.languages.createDiagnosticCollection("Generic Annotator");
   context.subscriptions.push(diagnostics);
   subscribeToDocumentChanges(context, diagnostics);
   subscribeToDecorationChanges(context);
@@ -120,7 +120,9 @@ async function refreshDiagnostics(
       docPath,
       workspacePath,
     );
-    diagnostics = diagnostics.concat(await getDiagnostics(command));
+    diagnostics = diagnostics.concat(
+      await getDiagnostics(command, docPath, workspacePath),
+    );
   }
   diagnosticCollection.set(docUri, diagnostics);
 }
