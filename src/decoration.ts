@@ -15,9 +15,14 @@ export async function setDecorations(
     return;
   }
   const decorations = await createDecorations(editor);
-  if (decorations.length > 0) {
-    editor.setDecorations(decorationType, decorations);
-  }
+  applyDecorations(editor, decorations);
+}
+
+export function applyDecorations(
+  editor: vscode.TextEditor,
+  decorations: vscode.DecorationOptions[],
+): void {
+  editor.setDecorations(decorationType, decorations);
 }
 
 export async function createDecorations(

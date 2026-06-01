@@ -9,14 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.languages.createDiagnosticCollection("diagnostics");
   context.subscriptions.push(diagnostics);
   subscribeToDocumentChanges(context, diagnostics);
-
-  // Inlay hints
-  vscode.workspace.onWillSaveTextDocument((event) => {
-    const openEditor = vscode.window.visibleTextEditors.find(
-      (editor) => editor.document.uri === event.document.uri,
-    );
-    setDecorations(context, openEditor);
-  });
+  subscribeToDecorationChanges(context);
 }
 
 function subscribeToDocumentChanges(
@@ -46,6 +39,56 @@ function subscribeToDocumentChanges(
       diagnostics.delete(doc.uri),
     ),
   );
+}
+
+function subscribeToDecorationChanges(context: vscode.ExtensionContext): void {
+  // Runs once when the extension starts.
+  refreshDecorations(context, vscode.window.activeTextEditor);
+
+  context.subscriptions.push(
+    // Fires when the active editor changes.
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      refreshDecorations(context, editor);
+    }),
+  );
+
+  context.subscriptions.push(
+    // Fires when VS Code opens a text document.
+    vscode.workspace.onDidOpenTextDocument((doc) => {
+      const openEditor = vscode.window.visibleTextEditors.find(
+        (editor) => editor.document.uri === doc.uri,
+      );
+      refreshDecorations(context, openEditor);
+    }),
+  );
+
+  context.subscriptions.push(
+    // Fires after settings change.
+    vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration("genericAnnotator")) {
+        for (const editor of vscode.window.visibleTextEditors) {
+          refreshDecorations(context, editor);
+        }
+      }
+    }),
+  );
+
+  context.subscriptions.push(
+    // Fires before VS Code saves a text document.
+    vscode.workspace.onWillSaveTextDocument((event) => {
+      const openEditor = vscode.window.visibleTextEditors.find(
+        (editor) => editor.document.uri === event.document.uri,
+      );
+      refreshDecorations(context, openEditor);
+    }),
+  );
+}
+
+function refreshDecorations(
+  context: vscode.ExtensionContext,
+  editor: vscode.TextEditor | undefined,
+): void {
+  void setDecorations(context, editor);
 }
 
 // https://github.com/microsoft/vscode-extension-samples/blob/133fa26af64ba8760559c5a06299953673d60763/code-actions-sample/src/diagnostics.ts
