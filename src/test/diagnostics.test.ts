@@ -2,49 +2,48 @@ import * as vscode from "vscode";
 import * as assert from "assert";
 import { getDocUri, activate } from "./helper";
 
-suite("diagnostics tests", () => {
-  test("imbalance.ledger", async () => {
-    const docUri = getDocUri("imbalance.ledger");
-    const config = vscode.workspace.getConfiguration(
-      "genericAnnotator",
-      docUri,
+export async function runDiagnosticsTests(): Promise<void> {
+  await testImbalanceLedger();
+}
+
+async function testImbalanceLedger(): Promise<void> {
+  const docUri = getDocUri("imbalance.ledger");
+  const config = vscode.workspace.getConfiguration("genericAnnotator", docUri);
+  try {
+    await config.update(
+      "annotatorConfigurations",
+      [
+        {
+          pathRegex: "\\.ledger$",
+          commandTemplate:
+            "node ${workspaceRoot}/../scripts/regex.js ${path} '2020-03-26'",
+        },
+      ],
+      vscode.ConfigurationTarget.Workspace,
     );
-    try {
-      await config.update(
-        "annotatorConfigurations",
-        [
-          {
-            pathRegex: "\\.ledger$",
-            commandTemplate:
-              "node ${workspaceRoot}/../scripts/regex.js ${path} '2020-03-26'",
-          },
-        ],
-        vscode.ConfigurationTarget.Workspace,
-      );
-      await activate(docUri);
-      await testDiagnostics(docUri, [
-        {
-          message: "Matched 2020-03-26",
-          range: toRange(0, 0, 0, 10),
-          severity: 1,
-          source: "regex.js",
-        },
-        {
-          message: "Matched 2020-03-26",
-          range: toRange(4, 0, 4, 10),
-          severity: 1,
-          source: "regex.js",
-        },
-      ]);
-    } finally {
-      await config.update(
-        "annotatorConfigurations",
-        undefined,
-        vscode.ConfigurationTarget.Workspace,
-      );
-    }
-  });
-});
+    await activate(docUri);
+    await testDiagnostics(docUri, [
+      {
+        message: "Matched 2020-03-26",
+        range: toRange(0, 0, 0, 10),
+        severity: 1,
+        source: "regex.js",
+      },
+      {
+        message: "Matched 2020-03-26",
+        range: toRange(4, 0, 4, 10),
+        severity: 1,
+        source: "regex.js",
+      },
+    ]);
+  } finally {
+    await config.update(
+      "annotatorConfigurations",
+      undefined,
+      vscode.ConfigurationTarget.Workspace,
+    );
+  }
+}
 
 function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
   const start = new vscode.Position(sLine, sChar);
